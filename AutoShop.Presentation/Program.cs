@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore;
-
 namespace AutoShop.Presentation
 {
     public class Program
