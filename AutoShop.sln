@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D44882
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShop.Domain", "AutoShop.Domain\AutoShop.Domain.csproj", "{3825CA52-BAEC-445F-B499-98A5D09BD250}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{D13131B1-F420-436D-8DF0-B6829DD209A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShop.DAL", "AutoShop.DAL\AutoShop.DAL.csproj", "{381C15E9-3E56-4C00-AA6A-146AF09050BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +27,17 @@ Global
 		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{381C15E9-3E56-4C00-AA6A-146AF09050BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{381C15E9-3E56-4C00-AA6A-146AF09050BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{381C15E9-3E56-4C00-AA6A-146AF09050BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{381C15E9-3E56-4C00-AA6A-146AF09050BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3825CA52-BAEC-445F-B499-98A5D09BD250} = {D44882F2-075B-4C2E-9DD5-FDA4F11E039C}
+		{381C15E9-3E56-4C00-AA6A-146AF09050BF} = {D13131B1-F420-436D-8DF0-B6829DD209A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6898E55-75D6-4FA4-95B0-9F5FF7F7D1F8}

@@ -1,4 +1,7 @@
-﻿namespace AutoShop.Presentation
+﻿using AutoShop.DAL;
+using Microsoft.EntityFrameworkCore;
+
+namespace AutoShop.Presentation
 {
     public class Startup
     {
@@ -10,6 +13,10 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            });
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment webHostEnvironment)
@@ -31,7 +38,9 @@
 
             application.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
