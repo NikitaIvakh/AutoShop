@@ -5,6 +5,10 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShop.Presentation", "AutoShop.Presentation\AutoShop.Presentation.csproj", "{760B8198-2C04-4BD2-A45A-9A2E9988C360}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D44882F2-075B-4C2E-9DD5-FDA4F11E039C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShop.Domain", "AutoShop.Domain\AutoShop.Domain.csproj", "{3825CA52-BAEC-445F-B499-98A5D09BD250}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{760B8198-2C04-4BD2-A45A-9A2E9988C360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{760B8198-2C04-4BD2-A45A-9A2E9988C360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{760B8198-2C04-4BD2-A45A-9A2E9988C360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3825CA52-BAEC-445F-B499-98A5D09BD250}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3825CA52-BAEC-445F-B499-98A5D09BD250} = {D44882F2-075B-4C2E-9DD5-FDA4F11E039C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6898E55-75D6-4FA4-95B0-9F5FF7F7D1F8}
