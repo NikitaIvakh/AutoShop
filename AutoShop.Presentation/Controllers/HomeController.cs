@@ -1,4 +1,5 @@
-﻿using AutoShop.Presentation.Models;
+﻿using AutoShop.Domain.Entity;
+using AutoShop.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,13 @@ namespace AutoShop.Presentation.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            Car car = new Car()
+            {
+                Name = "Alex",
+                Speed = 320,
+            };
+
+            return View(car);
         }
 
         public IActionResult Privacy()
