@@ -1,0 +1,14 @@
+﻿@model IEnumerable<AutoShop.Domain.Entity.Car>
+@{
+}
+
+@{
+    foreach (var car in Model)
+    {
+        <p>Name: @car.Name</p>
+        <p>Model: @car.Model</p>
+        <p>Description: @car.Description</p>
+        <p>Price: @car.Price.ToString("C")</p>
+        <p>DateCreate: @car.DateCreate</p>
+    }
+}

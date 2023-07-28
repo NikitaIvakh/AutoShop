@@ -13,28 +13,47 @@ namespace AutoShop.DAL.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public bool Create(Car entity)
+        public async Task<bool> CreateAsync(Car entity)
         {
-            throw new NotImplementedException();
-        }
-        public Car Get(int Id)
-        {
-            throw new NotImplementedException();
+            if (entity is not null)
+            {
+                await _applicationDbContext.Cars.AddAsync(entity);
+                await _applicationDbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
-        public async Task<IEnumerable<Car>> Select()
+        public async Task<Car> GetAsync(int id)
+        {
+            var carId = await _applicationDbContext.Cars.FirstOrDefaultAsync(key => key.Id == id);
+            return carId is null ? throw new Exception("Car with the specified id doesn't exist.") : carId;
+        }
+
+        public async Task<IEnumerable<Car>> SelectAsync()
         {
             return await _applicationDbContext.Cars.ToListAsync();
         }
 
-        public bool Delete(Car entity)
+        public async Task<bool> DeleteAsync(Car entity)
         {
-            throw new NotImplementedException();
+            if (entity is not null)
+            {
+                _applicationDbContext.Cars.Remove(entity);
+                await _applicationDbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
-        public Car GetByName(string name)
+        public async Task<Car> GetByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            var car = await _applicationDbContext.Cars.FirstOrDefaultAsync(key => key.Name == name);
+            return car is null ? throw new Exception("Car with the specified name doesn't exist.") : car;
         }
     }
 }
