@@ -1,4 +1,4 @@
-﻿using AutoShop.Domain.Entity;
+﻿using AutoShop.DAL.Interfaces;
 using AutoShop.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,21 +8,18 @@ namespace AutoShop.Presentation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICarRepository _carRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository)
         {
             _logger = logger;
+            _carRepository = carRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            Car car = new Car()
-            {
-                Name = "Alex",
-                Speed = 320,
-            };
-
-            return View(car);
+            var response = await _carRepository.Select();
+            return View(response);
         }
 
         public IActionResult Privacy()

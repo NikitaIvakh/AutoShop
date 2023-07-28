@@ -1,4 +1,6 @@
 ﻿using AutoShop.DAL;
+using AutoShop.DAL.Interfaces;
+using AutoShop.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.Presentation
@@ -17,6 +19,8 @@ namespace AutoShop.Presentation
             {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<ICarRepository, CarRepository>();
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment webHostEnvironment)
