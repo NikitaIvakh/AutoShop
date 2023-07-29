@@ -4,5 +4,6 @@
     {
         Ok = 200,
         InternalServerError = 500,
+        CarNotFound = 0,
     }
 }
