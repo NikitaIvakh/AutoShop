@@ -1,40 +1,27 @@
-﻿using AutoShop.DAL.Interfaces;
-using AutoShop.Domain.Entity;
+﻿using AutoShop.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoShop.Presentation.Controllers
 {
     public class CarController : Controller
     {
-        private readonly ICarRepository _carRepository;
+        private readonly ICarService _carService;
 
-        public CarController(ICarRepository carRepository)
+        public CarController(ICarService carService)
         {
-            _carRepository = carRepository;
+            _carService = carService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCars()
         {
-            var response1 = await _carRepository.SelectAsync();
-            var responde2 = await _carRepository.GetByNameAsync("Porsche 911");
-            var responde3 = await _carRepository.GetAsync(3);
-
-            var car = new Car()
+            var response = await _carService.GetCarsAsync();
+            if (response.StatusCode == Domain.Enum.StatusCode.Ok)
             {
-                Name = "Tesla Model X",
-                Model = "Tesla",
-                Description = " luxury all-electric crossover SUV produced by Tesla",
-                Speed = 250,
-                Price = 295470,
-                DateCreate = DateTime.UtcNow,
-                TypeCar = Domain.Enum.TypeCar.Suv
-            };
+                return View(response.Data);
+            }
 
-            var responde4 = await _carRepository.CreateAsync(car);
-            var responde5 = await _carRepository.DeleteAsync(car);
-
-            return View(response1);
+            return RedirectToAction("Error");
         }
     }
 }

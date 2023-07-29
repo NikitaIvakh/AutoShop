@@ -1,6 +1,8 @@
 ﻿using AutoShop.DAL;
 using AutoShop.DAL.Interfaces;
 using AutoShop.DAL.Repositories;
+using AutoShop.Service.Implementations;
+using AutoShop.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.Presentation
@@ -21,6 +23,7 @@ namespace AutoShop.Presentation
             });
 
             services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<ICarService, CarService>();
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment webHostEnvironment)

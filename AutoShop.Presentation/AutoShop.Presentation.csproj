@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoShop.DAL\AutoShop.DAL.csproj" />
     <ProjectReference Include="..\AutoShop.Domain\AutoShop.Domain.csproj" />
+    <ProjectReference Include="..\AutoShop.Service\AutoShop.Service.csproj" />
   </ItemGroup>
 
 </Project>
