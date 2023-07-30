@@ -33,6 +33,9 @@ namespace AutoShop.Service.Implementations
                 };
 
                 await _carRepository.CreateAsync(car);
+                baseResponse.StatusCode = StatusCode.Ok;
+
+                return baseResponse;
             }
 
             catch (Exception ex)
@@ -43,8 +46,6 @@ namespace AutoShop.Service.Implementations
                     StatusCode = StatusCode.InternalServerError,
                 };
             }
-
-            return baseResponse;
         }
 
         public async Task<IBaseResponse<IEnumerable<Car>>> GetCarsAsync()
@@ -93,6 +94,7 @@ namespace AutoShop.Service.Implementations
 
                 baseResponse.Data = car;
                 baseResponse.StatusCode = StatusCode.Ok;
+
                 return baseResponse;
             }
 
@@ -136,6 +138,43 @@ namespace AutoShop.Service.Implementations
             }
         }
 
+        public async Task<IBaseResponse<Car>> EditCarAsync(CarViewModel carViewModel)
+        {
+            var baseResponse = new BaseResponse<Car>();
+            try
+            {
+                var car = await _carRepository.GetAsync(carViewModel.Id);
+                if (car is null)
+                {
+                    baseResponse.Description = "Car not found";
+                    baseResponse.StatusCode = StatusCode.CarNotFound;
+
+                    return baseResponse;
+                }
+
+                car.Name = carViewModel.Name;
+                car.Description = carViewModel.Description;
+                car.Model = carViewModel.Model;
+                car.Speed = carViewModel.Speed;
+                car.Price = carViewModel.Price;
+                car.DateCreate = carViewModel.DateCreate;
+
+                // car.TypeCar = carViewModel.TypeCar;
+                await _carRepository.UpdateElementAsync(car);
+
+                return baseResponse;
+            }
+
+            catch (Exception ex)
+            {
+                return new BaseResponse<Car>()
+                {
+                    Description = $"[EditCarAsync]: {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                };
+            }
+        }
+
         public async Task<IBaseResponse<bool>> DeleteCarAsync(int id)
         {
             var baseResponse = new BaseResponse<bool>();
@@ -151,6 +190,8 @@ namespace AutoShop.Service.Implementations
                 }
 
                 await _carRepository.DeleteAsync(car);
+                baseResponse.StatusCode = StatusCode.Ok;
+
                 return baseResponse;
             }
 

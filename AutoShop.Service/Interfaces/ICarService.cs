@@ -14,6 +14,8 @@ namespace AutoShop.Service.Interfaces
 
         Task<IBaseResponse<Car>> GetCarByNameAsync(string name);
 
+        Task<IBaseResponse<Car>> EditCarAsync(CarViewModel carViewModel);
+
         Task<IBaseResponse<bool>> DeleteCarAsync(int id);
     }
 }

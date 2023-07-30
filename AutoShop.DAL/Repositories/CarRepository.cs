@@ -37,6 +37,14 @@ namespace AutoShop.DAL.Repositories
             return await _applicationDbContext.Cars.ToListAsync();
         }
 
+        public async Task<Car> UpdateElementAsync(Car type)
+        {
+            _applicationDbContext.Cars.Update(type);
+            await _applicationDbContext.SaveChangesAsync();
+
+            return type;
+        }
+
         public async Task<bool> DeleteAsync(Car entity)
         {
             if (entity is not null)
