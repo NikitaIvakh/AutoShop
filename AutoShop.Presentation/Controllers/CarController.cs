@@ -20,7 +20,7 @@ namespace AutoShop.Presentation.Controllers
             var response = await _carService.GetCarsAsync();
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
             {
-                return View(response.Data);
+                return View(response.Data.ToList());
             }
 
             return RedirectToAction("Error");
@@ -51,7 +51,7 @@ namespace AutoShop.Presentation.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Save(int id)
         {
             if (id == 0)

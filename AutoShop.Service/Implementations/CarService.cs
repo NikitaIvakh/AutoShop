@@ -78,9 +78,9 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Car>> GetCarAsync(int id)
+        public async Task<IBaseResponse<CarViewModel>> GetCarAsync(int id)
         {
-            var baseResponse = new BaseResponse<Car>();
+            var baseResponse = new BaseResponse<CarViewModel>();
             try
             {
                 var car = await _carRepository.GetAsync(id);
@@ -92,7 +92,18 @@ namespace AutoShop.Service.Implementations
                     return baseResponse;
                 }
 
-                baseResponse.Data = car;
+                var data = new CarViewModel()
+                {
+                    Name = car.Name,
+                    Description = car.Description,
+                    Speed = car.Speed,
+                    Model = car.Model,
+                    Price = car.Price,
+                    DateCreate = car.DateCreate,
+                    TypeCar = car.TypeCar.ToString(),
+                };
+
+                baseResponse.Data = data;
                 baseResponse.StatusCode = StatusCode.Ok;
 
                 return baseResponse;
@@ -100,7 +111,7 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                return new BaseResponse<Car>()
+                return new BaseResponse<CarViewModel>()
                 {
                     Description = $"[GetCarAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,

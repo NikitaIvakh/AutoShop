@@ -10,7 +10,7 @@ namespace AutoShop.Service.Interfaces
 
         Task<IBaseResponse<IEnumerable<Car>>> GetCarsAsync();
 
-        Task<IBaseResponse<Car>> GetCarAsync(int id);
+        Task<IBaseResponse<CarViewModel>> GetCarAsync(int id);
 
         Task<IBaseResponse<Car>> GetCarByNameAsync(string name);
 

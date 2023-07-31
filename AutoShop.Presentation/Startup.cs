@@ -43,6 +43,8 @@ namespace AutoShop.Presentation
             application.UseStaticFiles();
             application.UseRouting();
 
+            application.UseAuthorization();
+
             application.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
