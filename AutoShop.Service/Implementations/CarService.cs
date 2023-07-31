@@ -4,21 +4,21 @@ using AutoShop.Domain.Enum;
 using AutoShop.Domain.Response;
 using AutoShop.Domain.ViewModels.Car;
 using AutoShop.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.Service.Implementations
 {
     public class CarService : ICarService
     {
-        private readonly ICarRepository _carRepository;
+        private readonly IBaseRepository<Car> _carRepository;
 
-        public CarService(ICarRepository carRepository)
+        public CarService(IBaseRepository<Car> baseRepository)
         {
-            _carRepository = carRepository;
+            _carRepository = baseRepository;
         }
 
-        public async Task<IBaseResponse<CarViewModel>> CreateCarAsync(CarViewModel carViewModel)
+        public async Task<IBaseResponse<Car>> CreateCarAsync(CarViewModel carViewModel, byte[] imageData)
         {
-            var baseResponse = new BaseResponse<CarViewModel>();
             try
             {
                 var car = new Car()
@@ -30,17 +30,21 @@ namespace AutoShop.Service.Implementations
                     Price = carViewModel.Price,
                     DateCreate = carViewModel.DateCreate,
                     TypeCar = (TypeCar)int.Parse(carViewModel.TypeCar),
+                    Avatar = imageData,
                 };
 
                 await _carRepository.CreateAsync(car);
-                baseResponse.StatusCode = StatusCode.Ok;
 
-                return baseResponse;
+                return new BaseResponse<Car>()
+                {
+                    Data = car,
+                    StatusCode = StatusCode.Ok,
+                };
             }
 
             catch (Exception ex)
             {
-                return new BaseResponse<CarViewModel>()
+                return new BaseResponse<Car>()
                 {
                     Description = $"[CreateCarAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
@@ -50,22 +54,24 @@ namespace AutoShop.Service.Implementations
 
         public async Task<IBaseResponse<IEnumerable<Car>>> GetCarsAsync()
         {
-            var baseResponse = new BaseResponse<IEnumerable<Car>>();
             try
             {
-                var cars = await _carRepository.SelectAsync();
+                var cars = _carRepository.GetAllAsync();
                 if (!cars.Any())
                 {
-                    baseResponse.Description = "0 elements found";
-                    baseResponse.StatusCode = StatusCode.CarNotFound;
+                    return new BaseResponse<IEnumerable<Car>>()
+                    {
+                        Description = "0 elements found",
+                        StatusCode = StatusCode.CarNotFound,
 
-                    return baseResponse;
+                    };
                 }
 
-                baseResponse.Data = cars;
-                baseResponse.StatusCode = StatusCode.Ok;
-
-                return baseResponse;
+                return new BaseResponse<IEnumerable<Car>>()
+                {
+                    Data = cars,
+                    StatusCode = StatusCode.Ok,
+                };
             }
 
             catch (Exception ex)
@@ -80,33 +86,34 @@ namespace AutoShop.Service.Implementations
 
         public async Task<IBaseResponse<CarViewModel>> GetCarAsync(int id)
         {
-            var baseResponse = new BaseResponse<CarViewModel>();
             try
             {
-                var car = await _carRepository.GetAsync(id);
+                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Id == id);
                 if (car is null)
                 {
-                    baseResponse.Description = "Car not found";
-                    baseResponse.StatusCode = StatusCode.CarNotFound;
+                    return new BaseResponse<CarViewModel>()
+                    {
+                        Description = "Car not found",
+                        StatusCode = StatusCode.CarNotFound,
 
-                    return baseResponse;
+                    };
                 }
 
                 var data = new CarViewModel()
                 {
-                    Name = car.Name,
                     Description = car.Description,
                     Speed = car.Speed,
                     Model = car.Model,
-                    Price = car.Price,
                     DateCreate = car.DateCreate,
                     TypeCar = car.TypeCar.ToString(),
+                    Image = car.Avatar,
                 };
 
-                baseResponse.Data = data;
-                baseResponse.StatusCode = StatusCode.Ok;
-
-                return baseResponse;
+                return new BaseResponse<CarViewModel>()
+                {
+                    Data = data,
+                    StatusCode = StatusCode.Ok,
+                };
             }
 
             catch (Exception ex)
@@ -121,22 +128,23 @@ namespace AutoShop.Service.Implementations
 
         public async Task<IBaseResponse<Car>> GetCarByNameAsync(string name)
         {
-            var baseResponse = new BaseResponse<Car>();
             try
             {
-                var car = await _carRepository.GetByNameAsync(name);
+                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Name == name);
                 if (car is null)
                 {
-                    baseResponse.Description = "Car not found";
-                    baseResponse.StatusCode = StatusCode.CarNotFound;
-
-                    return baseResponse;
+                    return new BaseResponse<Car>()
+                    {
+                        Description = "Car not found",
+                        StatusCode = StatusCode.CarNotFound,
+                    };
                 }
 
-                baseResponse.Data = car;
-                baseResponse.StatusCode = StatusCode.Ok;
-
-                return baseResponse;
+                return new BaseResponse<Car>()
+                {
+                    Data = car,
+                    StatusCode = StatusCode.Ok,
+                };
             }
 
             catch (Exception ex)
@@ -151,16 +159,16 @@ namespace AutoShop.Service.Implementations
 
         public async Task<IBaseResponse<Car>> EditCarAsync(CarViewModel carViewModel)
         {
-            var baseResponse = new BaseResponse<Car>();
             try
             {
-                var car = await _carRepository.GetAsync(carViewModel.Id);
+                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Id == carViewModel.Id);
                 if (car is null)
                 {
-                    baseResponse.Description = "Car not found";
-                    baseResponse.StatusCode = StatusCode.CarNotFound;
-
-                    return baseResponse;
+                    return new BaseResponse<Car>()
+                    {
+                        Description = "Car not found",
+                        StatusCode = StatusCode.CarNotFound,
+                    };
                 }
 
                 car.Name = carViewModel.Name;
@@ -171,9 +179,13 @@ namespace AutoShop.Service.Implementations
                 car.DateCreate = carViewModel.DateCreate;
 
                 // car.TypeCar = carViewModel.TypeCar;
-                await _carRepository.UpdateElementAsync(car);
+                await _carRepository.UpdateAsync(car);
 
-                return baseResponse;
+                return new BaseResponse<Car>()
+                {
+                    Data = car,
+                    StatusCode = StatusCode.Ok,
+                };
             }
 
             catch (Exception ex)
@@ -188,22 +200,25 @@ namespace AutoShop.Service.Implementations
 
         public async Task<IBaseResponse<bool>> DeleteCarAsync(int id)
         {
-            var baseResponse = new BaseResponse<bool>();
             try
             {
-                var car = await _carRepository.GetAsync(id);
+                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Id == id);
                 if (car is null)
                 {
-                    baseResponse.Description = "Car not found";
-                    baseResponse.StatusCode = StatusCode.CarNotFound;
-
-                    return baseResponse;
+                    return new BaseResponse<bool>()
+                    {
+                        Description = "Car not found",
+                        StatusCode = StatusCode.CarNotFound,
+                    };
                 }
 
                 await _carRepository.DeleteAsync(car);
-                baseResponse.StatusCode = StatusCode.Ok;
 
-                return baseResponse;
+                return new BaseResponse<bool>()
+                {
+                    Data = true,
+                    StatusCode = StatusCode.Ok,
+                };
             }
 
             catch (Exception ex)

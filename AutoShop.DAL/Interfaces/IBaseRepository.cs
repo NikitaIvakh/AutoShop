@@ -1,17 +1,13 @@
-﻿using AutoShop.Domain.ViewModels.Car;
-
-namespace AutoShop.DAL.Interfaces
+﻿namespace AutoShop.DAL.Interfaces
 {
     public interface IBaseRepository<Type>
     {
-        Task<bool> CreateAsync(Type entity);
+        Task CreateAsync(Type entity);
 
-        Task<Type> GetAsync(int id);
+        IQueryable<Type> GetAllAsync();
 
-        Task<IEnumerable<Type>> SelectAsync();
+        Task<Type> UpdateAsync(Type type);
 
-        Task<Type> UpdateElementAsync(Type type);
-
-        Task<bool> DeleteAsync(Type entity);
+        Task DeleteAsync(Type entity);
     }
 }

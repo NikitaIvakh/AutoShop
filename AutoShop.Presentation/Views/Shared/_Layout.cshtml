@@ -19,7 +19,8 @@
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                 <span style="color:black; font-family:Impact; font-size:30px; background-color:white; border-radius:10px;">
                     Elite Auto Sales
-                </span>@*<img src="~/Img/LSKIcon.jpg" style="width:30px; height: 30px; border-radius: 10px;">*@
+                </span>
+                @*<img src="~/Img/LSKIcon.jpg" style="width:30px; height: 30px; border-radius: 10px;">*@
             </a>
             <button class="navbar-toggler badge-light" style="border-radius:10px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -31,11 +32,10 @@
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold; font-size: 20px">
+                            <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold;">
                                 Account
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -47,7 +47,7 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link active text-white" asp-controller="Account" asp-action="Login">
-                                                        Login
+                                                        Log in
                                                     </a>
                                                 </li>
                                             </ul>
@@ -58,11 +58,11 @@
                         </li>
                     }
 
-                    @if (User.Identity.IsAuthenticated)
+                    @if (!User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold;">
-                                Авто
+                                Auto
                             </a>
                             <div class="dropdown-menu">
                                 <div class="container">
@@ -70,8 +70,13 @@
                                         <div class="col-md-12">
                                             <ul class="nav flex-column paragraphHome">
                                                 <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="Car" asp-action="List">
+                                                    <a class="nav-link active text-white" asp-controller="Car" asp-action="GetCars">
                                                         List
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item text-center">
+                                                    <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
+                                                        Addition
                                                     </a>
                                                 </li>
                                             </ul>
@@ -86,7 +91,7 @@
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold;">
-                                Админ
+                                Admin
                             </a>
                             <div class="dropdown-menu">
                                 <div class="container">
@@ -95,11 +100,11 @@
                                             <ul class="nav flex-column paragraphHome">
                                                 <li class="nav-item text-center">
                                                     <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
-                                                        Addendum
+                                                        Addition
                                                     </a>
                                                 </li>
                                                 <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="Admin" asp-action="Index">
+                                                    <a class="nav-link active text-white" asp-controller="" asp-action="Index">
                                                         Users
                                                     </a>
                                                 </li>
@@ -114,7 +119,7 @@
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form method="post" asp-controller="Account" asp-action="Logout">
+                    <form method="post" asp-controller="" asp-action="">
                         <input class="btn btn-danger rounded" style="font-family:'Comic Sans MS'; font-weight: bold; font-size:20px;" type="submit" value="Exit" />
                     </form>
                 }
@@ -129,9 +134,12 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - AutoShop.Presentation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            @*@RenderSection("pageScripts", false)*@
+
         </div>
     </footer>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.DAL.Repositories
 {
-    public class CarRepository : ICarRepository
+    public class CarRepository : IBaseRepository<Car>
     {
         private readonly ApplicationDbContext _applicationDbContext;
 
@@ -13,31 +13,18 @@ namespace AutoShop.DAL.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<bool> CreateAsync(Car entity)
+        public async Task CreateAsync(Car entity)
         {
-            if (entity is not null)
-            {
-                await _applicationDbContext.Cars.AddAsync(entity);
-                await _applicationDbContext.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
+            await _applicationDbContext.Cars.AddAsync(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task<Car> GetAsync(int id)
+        public IQueryable<Car> GetAllAsync()
         {
-            var carId = await _applicationDbContext.Cars.FirstOrDefaultAsync(key => key.Id == id);
-            return carId is null ? throw new Exception("Car with the specified id doesn't exist.") : carId;
+            return _applicationDbContext.Cars;
         }
 
-        public async Task<IEnumerable<Car>> SelectAsync()
-        {
-            return await _applicationDbContext.Cars.ToListAsync();
-        }
-
-        public async Task<Car> UpdateElementAsync(Car type)
+        public async Task<Car> UpdateAsync(Car type)
         {
             _applicationDbContext.Cars.Update(type);
             await _applicationDbContext.SaveChangesAsync();
@@ -45,23 +32,10 @@ namespace AutoShop.DAL.Repositories
             return type;
         }
 
-        public async Task<bool> DeleteAsync(Car entity)
+        public async Task DeleteAsync(Car entity)
         {
-            if (entity is not null)
-            {
-                _applicationDbContext.Cars.Remove(entity);
-                await _applicationDbContext.SaveChangesAsync();
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<Car> GetByNameAsync(string name)
-        {
-            var car = await _applicationDbContext.Cars.FirstOrDefaultAsync(key => key.Name == name);
-            return car is null ? throw new Exception("Car with the specified name doesn't exist.") : car;
+            _applicationDbContext.Cars.Remove(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }

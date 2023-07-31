@@ -5,5 +5,6 @@
         Ok = 200,
         InternalServerError = 500,
         CarNotFound = 10,
+        UserNotFound = 0,
     }
 }

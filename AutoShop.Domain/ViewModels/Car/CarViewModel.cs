@@ -21,5 +21,7 @@ namespace AutoShop.Domain.ViewModels.Car
         public string TypeCar { get; set; }
 
         public IFormFile Avatar { get; set; }
+
+        public byte[]? Image { get; set; }
     }
 }

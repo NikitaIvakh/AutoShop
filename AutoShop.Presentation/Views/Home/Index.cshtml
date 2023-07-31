@@ -2,7 +2,104 @@
     ViewData["Title"] = "AutoShop";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div style="padding: 10px;"></div>
+<div class="card col-md-12">
+    <div class="card-body">
+        <h5 class="card-title text-center">Welcome to the Elite Auto Sales website</h5>
+        <p class="card-text">
+            On this site you will be able to choose a car model suitable for you, see its characteristics, compare
+            with other models, and you can also buy this car.
+        </p>
+        <p class="card-text"><small class="text-muted">Author - Nikita Ivakh</small></p>
+    </div>
 </div>
+
+<div style="padding: 10px;"></div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://images.wallpaperscraft.ru/image/single/mashina_noch_dozhd_143166_1280x720.jpg" class="card-img-top" />
+                <div class="card-body text-center">
+                    <h5 class="card-title">Mercedes</h5>
+                    <p class="card-text">Mercedes-Benz is a trademark and manufacturer of premium class passenger cars, trucks, buses and other vehicles of the same name</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-controller="Car" asp-action="Save" asp-route-id="0" class="card-link">Acquisition</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col">
+        <div class="card h-100">
+            <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_avtomobil_124112_1280x720.jpg" class="card-img-top" />
+            <div class="card-body text-center">
+                <h5 class="card-title">BMW</h5>
+                <p class="card-text">
+                    BMW AG is a German manufacturer of cars, motorcycles, engines, and bicycles.
+                </p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Car" asp-action="GetCars" class="card-link">List of cars</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card h-100">
+            <img src="https://images.wallpaperscraft.ru/image/single/audi_avtomobil_vid_speredi_130942_1280x720.jpg" class="card-img-top" />
+            <div class="card-body text-center">
+                <h5 class="card-title">Audi</h5>
+                <p class="card-text">Audi AG is a German automotive company within the Volkswagen Group, specializing in the production of cars under the Audi brand.</p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Car" asp-action="" class="card-link">Comparison</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding: 10px;"></div>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">The main types of bodies</h5>
+        <p class="card-text">
+            The type of body structure is easily determined by the appearance of the car. Each class is characterized by distinctive features,
+            which are easy to detect even with a little experience. In addition, the way the luggage compartment is implemented also plays a role in the classification,
+            which can be combined with or separated from the passenger compartment.
+        </p>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
+
+<div style="padding: 10px;"></div>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Passenger cars with the following body types are in the greatest demand</h5>
+    </div>
+    <ul class="list-group list-group-flush" id="ulListId">
+        <li class="list-group-item">Sedan is the most common option</li>
+        <li class="list-group-item">Station wagon — a family car with great features</li>
+        <li class="list-group-item">Hatchback — a shortened version of the station wagon</li>
+        <li class="list-group-item">Liftback — a combination of a station wagon and a sedan</li>
+        <li class="list-group-item">Coupe — a car for connoisseurs of personal space</li>
+        <li class="list-group-item">Limousine — ostentatious luxury</li>
+        <li class="list-group-item">A convertible always attracts the eyes</li>
+        <li class="list-group-item">SUV — increased durability and reliability</li>
+    </ul>
+
+    <div class="card-body">
+        <button class="btn btn-danger" id="btnHideId">Hide</button>
+        <button class="btn btn-primary" id="btnShowId">Show</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
+<script src="~/js/indexScript.js" asp-append-version="true"></script>

@@ -6,7 +6,7 @@ namespace AutoShop.Service.Interfaces
 {
     public interface ICarService
     {
-        Task<IBaseResponse<CarViewModel>> CreateCarAsync(CarViewModel car);
+        Task<IBaseResponse<Car>> CreateCarAsync(CarViewModel car, byte[] imageData);
 
         Task<IBaseResponse<IEnumerable<Car>>> GetCarsAsync();
 

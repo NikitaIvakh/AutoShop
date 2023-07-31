@@ -1,6 +1,7 @@
 ﻿using AutoShop.DAL;
 using AutoShop.DAL.Interfaces;
 using AutoShop.DAL.Repositories;
+using AutoShop.Domain.Entity;
 using AutoShop.Service.Implementations;
 using AutoShop.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace AutoShop.Presentation
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IBaseRepository<Car>, CarRepository>();
             services.AddScoped<ICarService, CarService>();
         }
 
@@ -42,8 +43,6 @@ namespace AutoShop.Presentation
             application.UseHttpsRedirection();
             application.UseStaticFiles();
             application.UseRouting();
-
-            application.UseAuthorization();
 
             application.UseEndpoints(endpoints =>
             {

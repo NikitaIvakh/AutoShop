@@ -13,8 +13,10 @@ namespace AutoShop.Domain.Response
 
     public interface IBaseResponse<Type>
     {
-        StatusCode StatusCode { get; set; }
+        string Description { get; }
 
-        Type Data { get; set; }
+        StatusCode StatusCode { get; }
+
+        Type Data { get; }
     }
 }

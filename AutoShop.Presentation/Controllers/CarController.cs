@@ -23,7 +23,7 @@ namespace AutoShop.Presentation.Controllers
                 return View(response.Data.ToList());
             }
 
-            return RedirectToAction("Error");
+            return View("Error", $"{response.Description}");
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace AutoShop.Presentation.Controllers
                 return View(response.Data);
             }
 
-            return RedirectToAction("Error");
+            return View("Error", $"{response.Description}");
         }
 
         [Authorize(Roles = "Admin")]
@@ -47,11 +47,10 @@ namespace AutoShop.Presentation.Controllers
                 return RedirectToAction("GetCars");
             }
 
-            return RedirectToAction("Error");
+            return View("Error", $"{response.Description}");
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Save(int id)
         {
             if (id == 0)
@@ -65,22 +64,33 @@ namespace AutoShop.Presentation.Controllers
                 return View(response.Data);
             }
 
-            return RedirectToAction("Error");
+            return View("Error", $"{response.Description}");
         }
 
         [HttpPost]
         public async Task<IActionResult> Save(CarViewModel carViewModel)
         {
+            ModelState.Remove("DateCreate");
             if (ModelState.IsValid)
             {
                 if (carViewModel.Id == 0)
-                    await _carService.CreateCarAsync(carViewModel);
+                {
+                    byte[] imageData;
+                    using (var binaryReader = new BinaryReader(carViewModel.Avatar.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)carViewModel.Avatar.Length);
+                    }
+
+                    await _carService.CreateCarAsync(carViewModel, imageData);
+                }
 
                 else
                     await _carService.EditCarAsync(carViewModel);
+
+                return RedirectToAction("GetCars");
             }
 
-            return RedirectToAction("GetCars");
+            return View();
         }
     }
 }

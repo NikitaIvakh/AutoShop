@@ -1,14 +1,10 @@
-namespace AutoShop.Presentation
-{
-    public class Program
-    {
-        private static void Main(string[] args) =>
-            CreateWebHostBuilder(args).Build().Run();
+using AutoShop.Presentation;
+using Microsoft.AspNetCore;
 
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-    }
+internal class Program
+{
+    private static void Main(string[] args) => CreateWebHostBuilder(args).Build().Run();
+
+    private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
 }
