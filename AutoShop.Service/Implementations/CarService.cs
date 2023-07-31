@@ -102,8 +102,9 @@ namespace AutoShop.Service.Implementations
                 var data = new CarViewModel()
                 {
                     Description = car.Description,
-                    Speed = car.Speed,
                     Model = car.Model,
+                    Speed = car.Speed,
+                    Price = car.Price,
                     DateCreate = car.DateCreate,
                     TypeCar = car.TypeCar.ToString(),
                     Image = car.Avatar,

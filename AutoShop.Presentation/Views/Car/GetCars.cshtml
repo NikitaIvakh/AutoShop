@@ -69,8 +69,8 @@
                                     <p class="card-text">@car.Description</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Price: @car.Price.ToString("C")</li>
-                                    <li class="list-group-item">Type car: @car.TypeCar</li>
+                                    <li class="list-group-item"><b>Price:</b> @car.Price.ToString("C")</li>
+                                    <li class="list-group-item"><b>Type car:</b> @car.TypeCar</li>
                                 </ul>
                                 <div class="card-body">
                                     <a asp-action="GetCar" asp-route-id="@car.Id" class="card-link">Go over</a>
