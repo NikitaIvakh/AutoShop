@@ -61,6 +61,40 @@ namespace AutoShop.DAL.Migrations
 
                     b.ToTable("Cars");
                 });
+
+            modelBuilder.Entity("AutoShop.Domain.Entity.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Nikita_Ivakh",
+                            Password = "a942b37ccfaf5a813b1432caa209a43b9d144e47ad0de1549c289c253e556cd5",
+                            Role = 2
+                        });
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -15,38 +15,24 @@ namespace AutoShop.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCars()
+        public IActionResult GetCars()
         {
-            var response = await _carService.GetCarsAsync();
+            var response = _carService.GetCars();
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
             {
                 return View(response.Data.ToList());
             }
-
-            return View("Error", $"{response.Description}");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCar(int id)
-        {
-            var response = await _carService.GetCarAsync(id);
-            if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-            {
-                return View(response.Data);
-            }
-
             return View("Error", $"{response.Description}");
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCar(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var response = await _carService.DeleteCarAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
             {
                 return RedirectToAction("GetCars");
             }
-
             return View("Error", $"{response.Description}");
         }
 
@@ -54,9 +40,7 @@ namespace AutoShop.Presentation.Controllers
         public async Task<IActionResult> Save(int id)
         {
             if (id == 0)
-            {
                 return View();
-            }
 
             var response = await _carService.GetCarAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
@@ -64,33 +48,45 @@ namespace AutoShop.Presentation.Controllers
                 return View(response.Data);
             }
 
-            return View("Error", $"{response.Description}");
+            ModelState.AddModelError("", response.Description);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(CarViewModel carViewModel)
+        public async Task<IActionResult> Save(CarViewModel model)
         {
             ModelState.Remove("DateCreate");
             if (ModelState.IsValid)
             {
-                if (carViewModel.Id == 0)
+                if (model.Id == 0)
                 {
                     byte[] imageData;
-                    using (var binaryReader = new BinaryReader(carViewModel.Avatar.OpenReadStream()))
+                    using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
                     {
-                        imageData = binaryReader.ReadBytes((int)carViewModel.Avatar.Length);
+                        imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
                     }
-
-                    await _carService.CreateCarAsync(carViewModel, imageData);
+                    await _carService.CreateCarAsync(model, imageData);
                 }
-
                 else
-                    await _carService.EditCarAsync(carViewModel);
-
+                {
+                    await _carService.EditCarAsync(model);
+                }
                 return RedirectToAction("GetCars");
             }
-
             return View();
+        }
+
+        public async Task<ActionResult> GetCar(int id)
+        {
+            var response = await _carService.GetCarAsync(id);
+            return PartialView("GetCar", response.Data);
+        }
+
+        [HttpPost]
+        public JsonResult GetTypes()
+        {
+            var types = _carService.GetTypes();
+            return Json(types.Data);
         }
     }
 }

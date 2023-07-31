@@ -1,6 +1,7 @@
 ﻿using AutoShop.DAL.Interfaces;
 using AutoShop.Domain.Entity;
 using AutoShop.Domain.Enum;
+using AutoShop.Domain.Extensions;
 using AutoShop.Domain.Response;
 using AutoShop.Domain.ViewModels.Car;
 using AutoShop.Service.Interfaces;
@@ -52,14 +53,14 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Car>>> GetCarsAsync()
+        public IBaseResponse<List<Car>> GetCars()
         {
             try
             {
-                var cars = _carRepository.GetAllAsync();
+                var cars = _carRepository.GetAllAsync().ToList();
                 if (!cars.Any())
                 {
-                    return new BaseResponse<IEnumerable<Car>>()
+                    return new BaseResponse<List<Car>>()
                     {
                         Description = "0 elements found",
                         StatusCode = StatusCode.CarNotFound,
@@ -67,7 +68,7 @@ namespace AutoShop.Service.Implementations
                     };
                 }
 
-                return new BaseResponse<IEnumerable<Car>>()
+                return new BaseResponse<List<Car>>()
                 {
                     Data = cars,
                     StatusCode = StatusCode.Ok,
@@ -76,7 +77,7 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                return new BaseResponse<IEnumerable<Car>>()
+                return new BaseResponse<List<Car>>()
                 {
                     Description = $"[GetCarsAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
@@ -101,6 +102,7 @@ namespace AutoShop.Service.Implementations
 
                 var data = new CarViewModel()
                 {
+                    Name = car.Name,
                     Description = car.Description,
                     Model = car.Model,
                     Speed = car.Speed,
@@ -127,32 +129,24 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Car>> GetCarByNameAsync(string name)
+        public BaseResponse<Dictionary<int, string>> GetTypes()
         {
             try
             {
-                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Name == name);
-                if (car is null)
-                {
-                    return new BaseResponse<Car>()
-                    {
-                        Description = "Car not found",
-                        StatusCode = StatusCode.CarNotFound,
-                    };
-                }
+                var types = ((TypeCar[])Enum.GetValues(typeof(TypeCar))).ToDictionary(key => (int)key, value => value.GetDisplayName());
 
-                return new BaseResponse<Car>()
+                return new BaseResponse<Dictionary<int, string>>()
                 {
-                    Data = car,
+                    Data = types,
                     StatusCode = StatusCode.Ok,
                 };
             }
 
             catch (Exception ex)
             {
-                return new BaseResponse<Car>()
+                return new BaseResponse<Dictionary<int, string>>()
                 {
-                    Description = $"[GetCarByNameAsync]: {ex.Message}",
+                    Description = $"[GetTypes]: {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
                 };
             }

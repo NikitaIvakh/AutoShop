@@ -1,20 +1,16 @@
-﻿@{
-    ViewData["Title"] = "AutoShop";
-}
-
-@{
+﻿﻿@{
     ViewData["Title"] = "Главная";
 }
 
 <div style="padding: 10px;"></div>
 <div class="card col-md-12">
     <div class="card-body">
-        <h5 class="card-title text-center">Welcome to the Elite Auto Sales website</h5>
+        <h5 class="card-title text-center">Добро пожаловать на сайт Automarket</h5>
         <p class="card-text">
-            On this site you will be able to choose a car model suitable for you, see its characteristics, compare
-            with other models, and you can also buy this car.
+            На этом сайте вы сможете выбрать подходящую для вас модель автомобиля, посмотреть его характеристики, сравнить
+            с другими моделями, а так же можете приобрести этот автомобиль
         </p>
-        <p class="card-text"><small class="text-muted">Author - Nikita Ivakh</small></p>
+        <p class="card-text"><small class="text-muted">АйтишныйДомосед</small></p>
     </div>
 </div>
 
@@ -27,39 +23,37 @@
                 <img src="https://images.wallpaperscraft.ru/image/single/mashina_noch_dozhd_143166_1280x720.jpg" class="card-img-top" />
                 <div class="card-body text-center">
                     <h5 class="card-title">Mercedes</h5>
-                    <p class="card-text">Mercedes-Benz is a trademark and manufacturer of premium class passenger cars, trucks, buses and other vehicles of the same name</p>
+                    <p class="card-text">Mercedes-Benz — торговая марка и одноимённая компания — производитель легковых автомобилей премиального класса, грузовых автомобилей, автобусов и других транспортных средств</p>
                 </div>
                 <div class="card-footer text-center">
-                    <a asp-controller="Car" asp-action="Save" asp-route-id="0" class="card-link">Acquisition</a>
+                    <a asp-controller="Car" asp-action="Save" asp-route-id="0" class="card-link">Приобретение</a>
                 </div>
             </div>
         </div>
     }
-
     <div class="col">
         <div class="card h-100">
             <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_avtomobil_124112_1280x720.jpg" class="card-img-top" />
             <div class="card-body text-center">
                 <h5 class="card-title">BMW</h5>
                 <p class="card-text">
-                    BMW AG is a German manufacturer of cars, motorcycles, engines, and bicycles.
+                    BMW AG — немецкий производитель автомобилей, мотоциклов, двигателей, а также велосипедов
                 </p>
             </div>
             <div class="card-footer text-center">
-                <a asp-controller="Car" asp-action="GetCars" class="card-link">List of cars</a>
+                <a asp-controller="Car" asp-action="GetCars" class="card-link">Список машин</a>
             </div>
         </div>
     </div>
-
     <div class="col">
         <div class="card h-100">
             <img src="https://images.wallpaperscraft.ru/image/single/audi_avtomobil_vid_speredi_130942_1280x720.jpg" class="card-img-top" />
             <div class="card-body text-center">
                 <h5 class="card-title">Audi</h5>
-                <p class="card-text">Audi AG is a German automotive company within the Volkswagen Group, specializing in the production of cars under the Audi brand.</p>
+                <p class="card-text">Audi AG — немецкая автомобилестроительная компания в составе концерна Volkswagen Group, специализирующаяся на выпуске автомобилей под маркой Audi</p>
             </div>
             <div class="card-footer text-center">
-                <a asp-controller="Car" asp-action="" class="card-link">Comparison</a>
+                <a asp-controller="Car" asp-action="" class="card-link">Сравнение</a>
             </div>
         </div>
     </div>
@@ -68,11 +62,11 @@
 <div style="padding: 10px;"></div>
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">The main types of bodies</h5>
+        <h5 class="card-title">Основные виды кузовов</h5>
         <p class="card-text">
-            The type of body structure is easily determined by the appearance of the car. Each class is characterized by distinctive features,
-            which are easy to detect even with a little experience. In addition, the way the luggage compartment is implemented also plays a role in the classification,
-            which can be combined with or separated from the passenger compartment.
+            Тип кузовной конструкции легко определяется по внешнему виду автомобиля. Для каждого класса характерны отличительные черты,
+            которые легко обнаружить даже при наличии небольшого опыта. Кроме того, свою роль в классификации играет и способ реализации багажного отделения,
+            которое может быть объединено с пассажирским салоном или отделено от него
         </p>
         <a href="#" class="card-link">Card link</a>
         <a href="#" class="card-link">Another link</a>
@@ -82,22 +76,21 @@
 <div style="padding: 10px;"></div>
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Passenger cars with the following body types are in the greatest demand</h5>
+        <h5 class="card-title">Наибольшим спросом пользуются легковые автомобили со следующими типами кузова</h5>
     </div>
     <ul class="list-group list-group-flush" id="ulListId">
-        <li class="list-group-item">Sedan is the most common option</li>
-        <li class="list-group-item">Station wagon — a family car with great features</li>
-        <li class="list-group-item">Hatchback — a shortened version of the station wagon</li>
-        <li class="list-group-item">Liftback — a combination of a station wagon and a sedan</li>
-        <li class="list-group-item">Coupe — a car for connoisseurs of personal space</li>
-        <li class="list-group-item">Limousine — ostentatious luxury</li>
-        <li class="list-group-item">A convertible always attracts the eyes</li>
-        <li class="list-group-item">SUV — increased durability and reliability</li>
+        <li class="list-group-item">Седан — самый распространенный вариант</li>
+        <li class="list-group-item">Универсал — семейный автомобиль с большими возможностями</li>
+        <li class="list-group-item">Хэтчбек — укороченный вариант универсала</li>
+        <li class="list-group-item">Лифтбек — комбинация универсала и седана</li>
+        <li class="list-group-item">Купе — машина для ценителей личного пространства</li>
+        <li class="list-group-item">Лимузин — показная роскошь</li>
+        <li class="list-group-item">Кабриолет всегда притягивает взгляды</li>
+        <li class="list-group-item">Внедорожник — повышенная прочность и надежность</li>
     </ul>
-
     <div class="card-body">
-        <button class="btn btn-danger" id="btnHideId">Hide</button>
-        <button class="btn btn-primary" id="btnShowId">Show</button>
+        <button class="btn btn-danger" id="btnHideId">Скрыть</button>
+        <button class="btn btn-primary" id="btnShowId">Показать</button>
     </div>
 </div>
 

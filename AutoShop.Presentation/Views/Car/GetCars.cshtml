@@ -1,95 +1,195 @@
-﻿@model List<AutoShop.Domain.Entity.Car>
+﻿@model List<Car>
 
 @{
-    ViewBag.Title = "Title";
-    <link rel="stylesheet" href="~/css/pageStyle.css" type="text/css" asp-append-version="true" />
+    ViewBag.Title = "Список автомобилей";
+    Layout = "_Layout";
 }
 
-<div class="card-buttons-group">
-    <button class="btn btn-danger" id="hideCardsId">Hide</button>
-    <button class="btn btn-success" id="showCardsId">Show</button>
-</div>
-
-<div style="padding: 10px;">
-    @{
-        if (Model.Count == 0)
+@{
+    var cardStyle = "col-md-12";
+    if (Model != null)
+    {
+        switch (Model.Count)
         {
-            <div class="card col-md-12">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
-                             class="img-fluid rounded-start rounded">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">The list of cars is empty :(</h5>
-                            <p class="card-text">
-                                The list will be updated later, do not worry
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="padding: 10px;"></div>
-            <div class="card text-center">
-                <div class="card-header">
-                    <ul class="nav nav-pills card-header-pills">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Active</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        }
-
-        else
-        {
-            <div class="row">
-                @foreach (var car in Model)
-                {
-                    <div class="row row-cols-1 col-md-4 text-center">
-                        <div class="col" style="padding: 10px;">
-                            <div class="card">
-                                <img src="https://images.wallpaperscraft.ru/image/single/mercedes_benz_s_class_w222_112850_800x600.jpg" class="card-img-top" alt="@car.Name">
-                                <div class="card-body">
-                                    <h5 class="card-title">@car.Name</h5>
-                                    <p class="card-text">@car.Description</p>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><b>Price:</b> @car.Price.ToString("C")</li>
-                                    <li class="list-group-item"><b>Type car:</b> @car.TypeCar</li>
-                                </ul>
-                                <div class="card-body">
-                                    <a asp-action="GetCar" asp-route-id="@car.Id" class="card-link">Go over</a>
-                                    <a asp-controller="Basket" asp-action="Add" asp-route-id="@car.Id" class="card-link">Add</a>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <hr />
-                                        <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Remove</a>
-                                        <a asp-controller="Car" asp-action="Save" asp-route-id="@car.Id" class="btn btn-primary">Change</a>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+            case 2:
+                cardStyle = "col-md-6";
+                break;
+            default:
+                cardStyle = "col-md-4";
+                break;
         }
     }
+}
+
+<style>
+    .card-buttons-group {
+        text-align: right;
+        padding: 10px;
+    }
+</style>
+
+<div class="card-buttons-group">
+    <button class="btn btn-danger" id='hideCardsId'>Скрыть</button>
+    <button class='btn btn-success' id='showCardsId'>Показать</button>
+    <button class='btn btn-success' id='addCarId'>Добавить</button>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
-<script src="~/js/pageScripts.js" asp-append-version="true"></script>
+<div style="padding: 10px;"></div>
+@if (Model == null)
+{
+    <div class="card col-md-12">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
+                     class="img-fluid rounded-start rounded">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Список машин пуст :(</h5>
+                    <p class="card-text">
+                        Список пополниться позже, не расстраивайтесь
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding: 10px;"></div>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="row row-cols-1 @cardStyle text-center">
+                <div class="col" style="padding: 10px;">
+                    <div class="card">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(car.Avatar ?? Array.Empty<byte>())" class="card-img-top" alt="@car.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@car.Name</h5>
+                            <p class="card-text">@car.Description</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Стоимость: @car.Price ₽</li>
+                            <li class="list-group-item">@car.TypeCar</li>
+                        </ul>
+                        <div class="card-body">
+                            <button class="btn btn-primary" onclick="openModal(@car.Id)" asp-action="GetCar" asp-controller="Car" value="@car.Id" asp-route-id="@car.Id"
+                                    data-toggle="ajax-modal" data-target="Modal">
+                                Открыть
+                            </button>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Удалить</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<div class="modal fade" id="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Информация об автомобиле</h5>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                @if (User.IsInRole("Admin"))
+                {
+                    <button type="button" class="btn btn-primary" id="saveBtn">Сохранить</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageScripts {
+
+    <script>
+
+        function model() {
+            const model = {
+                name: $('input#Name').val(),
+                model: $('input#Model').val(),
+                price: $('input#Price').val(),
+                description: $('input#Description').val()
+            }
+            return model;
+        };
+
+        $('#saveBtn').on('click', function () {
+            $.ajax({
+                url: '@Url.Action("Save")',
+                type: 'POST',
+                data: model(),
+            })
+        });
+
+        var modal = $('#modal');
+
+        $(".btn-close").click(function () {
+            modal.modal('hide');
+        });
+
+        function openModal(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/Car/GetCar',
+                data: { "id": id },
+                success: function (response) {
+                    modal.find(".modal-body").html(response);
+                    modal.modal('show')
+                },
+                failure: function () {
+                    modal.modal('hide')
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        };
+
+        const hideCardElement = $('#hideCardsId');
+        const showCardElement = $('#showCardsId');
+        const cardElement = $('.card');
+
+        const interval = 2000;
+
+        hideCardElement.click(function () {
+            hideCardElement.hide(interval);
+            showCardElement.show(interval);
+            cardElement.hide(interval);
+        });
+
+        showCardElement.click(function () {
+            hideCardElement.show(interval);
+            showCardElement.hide(interval);
+            cardElement.show(interval);
+        });
+    </script>
+}

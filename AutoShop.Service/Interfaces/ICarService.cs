@@ -8,11 +8,11 @@ namespace AutoShop.Service.Interfaces
     {
         Task<IBaseResponse<Car>> CreateCarAsync(CarViewModel car, byte[] imageData);
 
-        Task<IBaseResponse<IEnumerable<Car>>> GetCarsAsync();
+        IBaseResponse<List<Car>> GetCars();
 
         Task<IBaseResponse<CarViewModel>> GetCarAsync(int id);
 
-        Task<IBaseResponse<Car>> GetCarByNameAsync(string name);
+        BaseResponse<Dictionary<int, string>> GetTypes();
 
         Task<IBaseResponse<Car>> EditCarAsync(CarViewModel carViewModel);
 

@@ -1,31 +1,72 @@
 ﻿@model CarViewModel
 
-@{
-    ViewData["Title"] = "GetCar";
-}
-
-<div style="padding: 10px;">
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="https://images.wallpaperscraft.ru/image/single/mercedes_benz_s_class_w222_112850_800x600.jpg"
-                     class="img-fluid rounded-start rounded" alt="@Model?.Name">
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <h5 class="card-title text-center">@Model?.Name</h5>
-                    <p class="card-text"><b>Description: </b>@Model?.Description</p>
-                    <p class="card-text"><b>Price: </b>@Model?.Price.ToString("C")</p>
-                    <p class="card-text"><b>Type: </b>@Model?.TypeCar</p>
-                    <p class="card-text"><b>Model: </b>@Model?.Model</p>
-                    <p class="card-text"><small class="text-muted">Release date - @Model?.DateCreate</small></p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <p class="card-text"><b>Description: </b>@Model?.Description</p>
-                </div>
-            </div>
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <img src="https://images.wallpaperscraft.ru/image/single/zdaniia_ogni_svechenie_279703_300x168.jpg"
+                 class="img-fluid rounded-start rounded" alt="@Model?.Name">
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.Name" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.Name">
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.Model" class="col-form-label"></label>
+            <input class="form-control" asp-for="@Model.Model" />
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="@Model.Price" class="col-form-label"></label>
+            <input type="text" class="form-control" asp-for="@Model.Price" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="@Model.Description" class="col-form-label"></label>
+            <textarea type="text" class="form-control" asp-for="@Model.Description"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="@Model.TypeCar" class="col-form-label"></label>
+            <select class="form-control" id="carTypeId2">
+                <option value="@Model.TypeCar">@Model.TypeCar</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="@Model.DateCreate" class="col-form-label"></label>
+            <input class="form-control" asp-for="@Model.DateCreate" />
+        </div>
+    </div>
+</form>
+
+<style>
+    label {
+        color: black;
+    }
+</style>
+
+<script src="~/lib/select2/js/select2.full.min.js"></script>
+<script>
+    $('#carTypeId2').select2({
+        placeholder: "Выберите тип",
+        minimumInputLength: 0,
+        allowClear: true,
+        ajax: {
+            type: "POST",
+            url: "@Url.Action("GetTypes", "Car")",
+            dataType: "json",
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (val, index) {
+                        return {
+                            id: index,
+                            text: val
+                        };
+                    }),
+                };
+            }
+        }
+    });
+</script>

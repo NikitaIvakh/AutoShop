@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AutoShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" type="text/css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" type="text/css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" type="text/css" />
@@ -16,12 +19,7 @@
 <body class="backgroundImage">
     <header>
         <nav class="navbar navbar-expand-lg" style="background-color: white;">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <span style="color:black; font-family:Impact; font-size:30px; background-color:white; border-radius:10px;">
-                    Elite Auto Sales
-                </span>
-                @*<img src="~/Img/LSKIcon.jpg" style="width:30px; height: 30px; border-radius: 10px;">*@
-            </a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index"><span style="color:black; font-family:Impact; font-size:30px; background-color:white; border-radius:10px;">Automarket</span>@*<img src="~/Img/LSKIcon.jpg" style="width:30px; height: 30px; border-radius: 10px;">*@</a>
             <button class="navbar-toggler badge-light" style="border-radius:10px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6H4z" />
@@ -33,7 +31,7 @@
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold;">
-                                Account
+                                Аккаунт
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <div class="container">
@@ -42,12 +40,12 @@
                                             <ul class="nav flex-column paragraphHome">
                                                 <li class="nav-item text-center">
                                                     <a class="nav-link active text-white" asp-controller="Account" asp-action="Register">
-                                                        Registration
+                                                        Регистрация
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link active text-white" asp-controller="Account" asp-action="Login">
-                                                        Log in
+                                                        Вход
                                                     </a>
                                                 </li>
                                             </ul>
@@ -57,12 +55,11 @@
                             </div>
                         </li>
                     }
-
-                    @if (!User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold;">
-                                Auto
+                                Авто
                             </a>
                             <div class="dropdown-menu">
                                 <div class="container">
@@ -71,12 +68,12 @@
                                             <ul class="nav flex-column paragraphHome">
                                                 <li class="nav-item text-center">
                                                     <a class="nav-link active text-white" asp-controller="Car" asp-action="GetCars">
-                                                        List
+                                                        Список
                                                     </a>
                                                 </li>
                                                 <li class="nav-item text-center">
                                                     <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
-                                                        Addition
+                                                        Добавление
                                                     </a>
                                                 </li>
                                             </ul>
@@ -86,12 +83,11 @@
                             </div>
                         </li>
                     }
-
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold;">
-                                Admin
+                                Админ
                             </a>
                             <div class="dropdown-menu">
                                 <div class="container">
@@ -100,12 +96,12 @@
                                             <ul class="nav flex-column paragraphHome">
                                                 <li class="nav-item text-center">
                                                     <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
-                                                        Addition
+                                                        Добавление
                                                     </a>
                                                 </li>
                                                 <li class="nav-item text-center">
                                                     <a class="nav-link active text-white" asp-controller="" asp-action="Index">
-                                                        Users
+                                                        Пользователи
                                                     </a>
                                                 </li>
                                             </ul>
@@ -119,8 +115,8 @@
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form method="post" asp-controller="" asp-action="">
-                        <input class="btn btn-danger rounded" style="font-family:'Comic Sans MS'; font-weight: bold; font-size:20px;" type="submit" value="Exit" />
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <input class="btn btn-danger rounded" style="font-family:'Comic Sans MS'; font-weight: bold; font-size:20px;" type="submit" value="Выход" />
                     </form>
                 }
             </div>
@@ -137,14 +133,12 @@
 
         </div>
     </footer>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
     <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    @await RenderSectionAsync("pageScripts", required: false)
 </body>
 </html>
