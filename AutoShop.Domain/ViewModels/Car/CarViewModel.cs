@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace AutoShop.Domain.ViewModels.Car
 {
@@ -8,32 +7,32 @@ namespace AutoShop.Domain.ViewModels.Car
     {
         public int Id { get; set; }
 
-        [Display(Name = "Название")]
-        [Required(ErrorMessage = "Введите имя")]
-        [MinLength(2, ErrorMessage = "Минимальная длина должна быть больше двух символов")]
+        [Display(Name = "Title")]
+        [Required(ErrorMessage = "Enter a title")]
+        [MinLength(2, ErrorMessage = "The minimum length must be more than two characters")]
         public string Name { get; set; }
 
-        [Display(Name = "Описание")]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
-        [Display(Name = "Модель")]
-        [Required(ErrorMessage = "Укажите модель")]
-        [MinLength(2, ErrorMessage = "Минимальная длина должна быть больше двух символов")]
+        [Display(Name = "Model")]
+        [Required(ErrorMessage = "Specify the model")]
+        [MinLength(2, ErrorMessage = "The minimum length must be more than two characters")]
         public string Model { get; set; }
 
-        [Display(Name = "Скорость")]
-        [Required(ErrorMessage = "Укажите скорость")]
-        [Range(0, 600, ErrorMessage = "Длина должна быть в диапазоне от 0 до 600")]
+        [Display(Name = "Speed")]
+        [Required(ErrorMessage = "Specify the speed")]
+        [Range(0, 600, ErrorMessage = "The length should be in the range from 0 to 600")]
         public double Speed { get; set; }
 
-        [Display(Name = "Стоимость")]
-        [Required(ErrorMessage = "Укажите стоимость")]
-        public decimal Price { get; set; }
+        [Display(Name = "Price")]
+        [Required(ErrorMessage = "Specify the cost")]
+        public decimal Price { get; set; } 
 
         public DateTime DateCreate { get; set; }
 
-        [Display(Name = "Тип автомобиля")]
-        [Required(ErrorMessage = "Выберите тип")]
+        [Display(Name = "Type of car")]
+        [Required(ErrorMessage = "Select the type")]
         public string TypeCar { get; set; }
 
         public IFormFile Avatar { get; set; }

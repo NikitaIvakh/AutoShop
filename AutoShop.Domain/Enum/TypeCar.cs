@@ -16,7 +16,7 @@ namespace AutoShop.Domain.Enum
         [Display(Name = "Minivan")]
         Minivan = 3,
 
-        [Display(Name = "SportsCar")]
+        [Display(Name = "Sport Car")]
         SportsCar = 4,
 
         [Display(Name = "Suv")]
