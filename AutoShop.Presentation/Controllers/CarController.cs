@@ -25,15 +25,10 @@ namespace AutoShop.Presentation.Controllers
             return View("Error", $"{response.Description}");
         }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> GetCar(int id)
         {
-            var response = await _carService.DeleteCarAsync(id);
-            if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-            {
-                return RedirectToAction("GetCars");
-            }
-            return View("Error", $"{response.Description}");
+            var response = await _carService.GetCarAsync(id);
+            return PartialView("GetCar", response.Data);
         }
 
         [HttpGet]
@@ -65,21 +60,28 @@ namespace AutoShop.Presentation.Controllers
                     {
                         imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
                     }
+
                     await _carService.CreateCarAsync(model, imageData);
                 }
+
                 else
-                {
                     await _carService.EditCarAsync(model);
-                }
+
                 return RedirectToAction("GetCars");
             }
             return View();
         }
 
-        public async Task<ActionResult> GetCar(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var response = await _carService.GetCarAsync(id);
-            return PartialView("GetCar", response.Data);
+            var response = await _carService.DeleteCarAsync(id);
+            if (response.StatusCode == Domain.Enum.StatusCode.Ok)
+            {
+                return RedirectToAction("GetCars");
+            }
+
+            return View("Error", $"{response.Description}");
         }
 
         [HttpPost]

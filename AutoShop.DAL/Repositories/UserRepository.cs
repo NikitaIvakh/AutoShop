@@ -22,6 +22,7 @@ namespace AutoShop.DAL.Repositories
         {
             return _applicationDbContext.Users;
         }
+
         public async Task<User> UpdateAsync(User type)
         {
             _applicationDbContext.Users.Update(type);
