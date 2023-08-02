@@ -26,7 +26,7 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Name == register.Name);
+                var user = await _userRepository.GetAllElements().FirstOrDefaultAsync(key => key.Name == register.Name);
                 if (user is not null)
                 {
                     return new BaseResponse<ClaimsIdentity>
@@ -68,7 +68,7 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var user = await _userRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Name == login.Name);
+                var user = await _userRepository.GetAllElements().FirstOrDefaultAsync(key => key.Name == login.Name);
                 if (user is null)
                 {
                     return new BaseResponse<ClaimsIdentity>()

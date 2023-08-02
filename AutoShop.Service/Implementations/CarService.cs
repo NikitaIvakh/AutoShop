@@ -52,44 +52,11 @@ namespace AutoShop.Service.Implementations
                 };
             }
         }
-
-        public IBaseResponse<List<Car>> GetCars()
-        {
-            try
-            {
-                var cars = _carRepository.GetAllAsync().ToList();
-                if (!cars.Any())
-                {
-                    return new BaseResponse<List<Car>>()
-                    {
-                        Description = "0 elements found",
-                        StatusCode = StatusCode.CarNotFound,
-
-                    };
-                }
-
-                return new BaseResponse<List<Car>>()
-                {
-                    Data = cars,
-                    StatusCode = StatusCode.Ok,
-                };
-            }
-
-            catch (Exception ex)
-            {
-                return new BaseResponse<List<Car>>()
-                {
-                    Description = $"[GetCarsAsync] : {ex.Message}",
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
-        }
-
         public async Task<IBaseResponse<CarViewModel>> GetCarAsync(int id)
         {
             try
             {
-                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Id == id);
+                var car = await _carRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == id);
                 if (car is null)
                 {
                     return new BaseResponse<CarViewModel>()
@@ -129,13 +96,53 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public BaseResponse<Dictionary<int, string>> GetTypes()
+        public IBaseResponse<IEnumerable<Car>> GetCars()
+        {
+            try
+            {
+                var cars = _carRepository.GetAllElements();
+                if (cars is null)
+                {
+                    return new BaseResponse<IEnumerable<Car>>()
+                    {
+                        Description = "0 elements found",
+                        StatusCode = StatusCode.CarNotFound,
+
+                    };
+                }
+
+                return new BaseResponse<IEnumerable<Car>>()
+                {
+                    Data = cars,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<Car>>()
+                {
+                    Description = $"[GetCarsAsync] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                };
+            }
+        }
+
+        public IBaseResponse<IDictionary<int, string>> GetTypes()
         {
             try
             {
                 var types = ((TypeCar[])Enum.GetValues(typeof(TypeCar))).ToDictionary(key => (int)key, value => value.GetDisplayName());
+                if (types is null)
+                {
+                    return new BaseResponse<IDictionary<int, string>>
+                    {
+                        Description = "Not found",
+                        StatusCode = StatusCode.InternalServerError,
+                    };
+                }
 
-                return new BaseResponse<Dictionary<int, string>>()
+                return new BaseResponse<IDictionary<int, string>>()
                 {
                     Data = types,
                     StatusCode = StatusCode.Ok,
@@ -144,7 +151,7 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                return new BaseResponse<Dictionary<int, string>>()
+                return new BaseResponse<IDictionary<int, string>>()
                 {
                     Description = $"[GetTypes]: {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
@@ -156,7 +163,7 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Id == carViewModel.Id);
+                var car = await _carRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == carViewModel.Id);
                 if (car is null)
                 {
                     return new BaseResponse<Car>()
@@ -197,7 +204,7 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var car = await _carRepository.GetAllAsync().FirstOrDefaultAsync(key => key.Id == id);
+                var car = await _carRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == id);
                 if (car is null)
                 {
                     return new BaseResponse<bool>()

@@ -1,5 +1,5 @@
 ﻿﻿@{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = "Main page";
 }
 
 <div style="padding: 10px;"></div>
@@ -16,22 +16,24 @@
 
 <div style="padding: 10px;"></div>
 <div class="row row-cols-1 row-cols-md-3 g-4">
-    @if (User.IsInRole("Admin"))
-    {
-        <div class="col">
-            <div class="card h-100">
-                <img src="https://images.wallpaperscraft.ru/image/single/mashina_noch_dozhd_143166_1280x720.jpg" class="card-img-top" />
-                <div class="card-body text-center">
-                    <h5 class="card-title">Mercedes</h5>
-                    <p class="card-text">
-                        Mercedes-Benz is a trademark and manufacturer of premium class passenger cars, trucks, buses and other vehicles of the same name.
-                    </p>
-                </div>
-                <div class="card-footer text-center">
-                    <a asp-controller="Car" asp-action="Save" asp-route-id="0" class="card-link">Acquisition</a>
+    @{
+        if (User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://images.wallpaperscraft.ru/image/single/mashina_noch_dozhd_143166_1280x720.jpg" class="card-img-top" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Mercedes</h5>
+                        <p class="card-text">
+                            Mercedes-Benz is a trademark and manufacturer of premium class passenger cars, trucks, buses and other vehicles of the same name.
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-controller="Car" asp-action="Save" asp-route-id="0" class="card-link">Acquisition</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     }
 
     <div class="col">

@@ -19,7 +19,7 @@ namespace AutoShop.DAL.Repositories
             await _applicationDbContext.SaveChangesAsync();
         }
 
-        public IQueryable<Car> GetAllAsync()
+        public IQueryable<Car> GetAllElements()
         {
             return _applicationDbContext.Cars;
         }

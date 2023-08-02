@@ -4,7 +4,7 @@
     {
         Task CreateAsync(Type entity);
 
-        IQueryable<Type> GetAllAsync();
+        IQueryable<Type> GetAllElements();
 
         Task<Type> UpdateAsync(Type type);
 

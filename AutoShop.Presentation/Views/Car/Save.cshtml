@@ -1,11 +1,11 @@
 ﻿@model CarViewModel
 
 @{
-    ViewBag.Title = "Добавление";
+    ViewBag.Title = "Addition";
 }
 
 @{
-    var textTitle = Model?.Id == 0 ? "Изменение данных" : "Добавление данных";
+    var textTitle = Model?.Id == 0 ? "Changing data" : "Adding Data";
 }
 
 <div style="padding: 10px;"></div>
@@ -60,7 +60,7 @@
     <script>
         $(document).ready(function () {
             $('#carTypeId').select2({
-                placeholder: "Выберите тип",
+                placeholder: "Select the type",
                 minimumInputLength: 0,
                 allowClear: true,
                 ajax: {

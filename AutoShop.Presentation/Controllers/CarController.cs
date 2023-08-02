@@ -19,9 +19,8 @@ namespace AutoShop.Presentation.Controllers
         {
             var response = _carService.GetCars();
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-            {
                 return View(response.Data.ToList());
-            }
+
             return View("Error", $"{response.Description}");
         }
 
@@ -39,36 +38,35 @@ namespace AutoShop.Presentation.Controllers
 
             var response = await _carService.GetCarAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-            {
                 return View(response.Data);
-            }
 
             ModelState.AddModelError("", response.Description);
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(CarViewModel model)
+        public async Task<IActionResult> Save(CarViewModel carViewModel)
         {
             ModelState.Remove("DateCreate");
             if (ModelState.IsValid)
             {
-                if (model.Id == 0)
+                if (carViewModel.Id == 0)
                 {
                     byte[] imageData;
-                    using (var binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
+                    using (var binaryReader = new BinaryReader(carViewModel.Avatar.OpenReadStream()))
                     {
-                        imageData = binaryReader.ReadBytes((int)model.Avatar.Length);
+                        imageData = binaryReader.ReadBytes((int)carViewModel.Avatar.Length);
                     }
 
-                    await _carService.CreateCarAsync(model, imageData);
+                    await _carService.CreateCarAsync(carViewModel, imageData);
                 }
 
                 else
-                    await _carService.EditCarAsync(model);
+                    await _carService.EditCarAsync(carViewModel);
 
                 return RedirectToAction("GetCars");
             }
+
             return View();
         }
 
@@ -77,9 +75,7 @@ namespace AutoShop.Presentation.Controllers
         {
             var response = await _carService.DeleteCarAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-            {
                 return RedirectToAction("GetCars");
-            }
 
             return View("Error", $"{response.Description}");
         }

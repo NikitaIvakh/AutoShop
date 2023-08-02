@@ -1,7 +1,7 @@
-﻿@model List<Car>
+﻿@model IEnumerable<Car>
 
 @{
-    ViewBag.Title = "Список автомобилей";
+    ViewBag.Title = "List of cars";
     Layout = "_Layout";
 }
 
@@ -9,7 +9,7 @@
     var cardStyle = "col-md-12";
     if (Model != null)
     {
-        switch (Model.Count)
+        switch (Model.Count())
         {
             case 2:
                 cardStyle = "col-md-6";
@@ -35,80 +35,88 @@
 </div>
 
 <div style="padding: 10px;"></div>
-@if (Model == null)
-{
-    <div class="card col-md-12">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
-                     class="img-fluid rounded-start rounded">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title text-center">The list of cars is empty :(</h5>
-                    <p class="card-text">
-                        The list will be updated later, do not worry
-                    </p>
+@{
+    if (Model == null)
+    {
+        <div class="card col-md-12">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
+                         class="img-fluid rounded-start rounded">
                 </div>
-            </div>
-        </div>
-    </div>
-    <div style="padding: 10px;"></div>
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-pills card-header-pills">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-}
-else
-{
-    <div class="row">
-        @foreach (var car in Model)
-        {
-            <div class="row row-cols-1 @cardStyle text-center">
-                <div class="col" style="padding: 10px;">
-                    <div class="card">
-                        @*<img src="data:image/jpeg;base64,@Convert.ToBase64String(car.Avatar ?? Array.Empty<byte>())" class="card-img-top" alt="@car.Name">*@
-                        <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
-                             class="img-fluid rounded-start rounded">
-                        <div class="card-body">
-                            <h5 class="card-title">@car.Name</h5>
-                            <p class="card-text">@car.Description</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><b>Price:</b> @car.Price.ToString("C")</li>
-                            <li class="list-group-item"><b>Type car:</b> @car.TypeCar</li>
-                        </ul>
-                        <div class="card-body">
-                            <button class="btn btn-primary" onclick="openModal(@car.Id)" asp-action="GetCar" asp-controller="Car" value="@car.Id" asp-route-id="@car.Id"
-                                    data-toggle="ajax-modal" data-target="Modal">
-                                Open
-                            </button>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <button asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</button>
-                            }
-                        </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">The list of cars is empty :(</h5>
+                        <p class="card-text">
+                            The list will be updated later, do not worry
+                        </p>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+        <div style="padding: 10px;"></div>
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    }
+
+    else
+    {
+        <div class="row">
+            @{
+                foreach (var car in Model)
+                {
+                    <div class="row row-cols-1 @cardStyle text-center">
+                        <div class="col" style="padding: 10px;">
+                            <div class="card">
+                                @*<img src="data:image/jpeg;base64,@Convert.ToBase64String(car.Avatar ?? Array.Empty<byte>())" class="card-img-top" alt="@car.Name">*@
+                                <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
+                                     class="img-fluid rounded-start rounded">
+                                <div class="card-body">
+                                    <h5 class="card-title">@car.Name</h5>
+                                    <p class="card-text">@car.Description</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><b>Price:</b> @car.Price.ToString("C")</li>
+                                    <li class="list-group-item"><b>Type car:</b> @car.TypeCar</li>
+                                </ul>
+                                <div class="card-body">
+                                    <button class="btn btn-primary" onclick="openModal(@car.Id)" asp-action="GetCar" asp-controller="Car" value="@car.Id" asp-route-id="@car.Id"
+                                            data-toggle="ajax-modal" data-target="Modal">
+                                        Open
+                                    </button>
+                                    @{
+                                        if (User.IsInRole("Admin"))
+                                        {
+                                            <button asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+
 }
 
 <div class="modal fade" id="modal" tabindex="-1">
@@ -121,9 +129,11 @@ else
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-close btn-secondary" data-bs-dismiss="modal"></button>
-                @if (User.IsInRole("Admin"))
-                {
-                    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+                    }
                 }
             </div>
         </div>

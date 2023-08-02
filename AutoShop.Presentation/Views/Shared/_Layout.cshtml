@@ -31,99 +31,103 @@
             </button>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold;">
-                                Account
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <ul class="nav flex-column paragraphHome">
-                                                <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="Account" asp-action="Register">
-                                                        Registration
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link active text-white" asp-controller="Account" asp-action="Login">
-                                                        Log in
-                                                    </a>
-                                                </li>
-                                            </ul>
+                    @{
+                        if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold;">
+                                    Account
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <ul class="nav flex-column paragraphHome">
+                                                    <li class="nav-item text-center">
+                                                        <a class="nav-link active text-white" asp-controller="Account" asp-action="Register">
+                                                            Registration
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active text-white" asp-controller="Account" asp-action="Login">
+                                                            Log in
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    }
+                            </li>
+                        }
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold; font-size: 20px">
-                                Vehicle
-                            </a>
-                            <div class="dropdown-menu">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <ul class="nav flex-column paragraphHome">
-                                                <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="Car" asp-action="GetCars">
-                                                        List
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
-                                                        Addition
-                                                    </a>
-                                                </li>
-                                            </ul>
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold; font-size: 20px">
+                                    Vehicle
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <ul class="nav flex-column paragraphHome">
+                                                    <li class="nav-item text-center">
+                                                        <a class="nav-link active text-white" asp-controller="Car" asp-action="GetCars">
+                                                            List
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item text-center">
+                                                        <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
+                                                            Addition
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    }
+                            </li>
+                        }
 
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold; font-size: 20px">
-                                Admin
-                            </a>
-                            <div class="dropdown-menu">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <ul class="nav flex-column paragraphHome">
-                                                <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
-                                                        Addition
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item text-center">
-                                                    <a class="nav-link active text-white" asp-controller="" asp-action="Index">
-                                                        Users
-                                                    </a>
-                                                </li>
-                                            </ul>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" data-toggle="dropdown" style="font-family:'Comic Sans MS'; font-weight: bold; font-size: 20px">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <ul class="nav flex-column paragraphHome">
+                                                    <li class="nav-item text-center">
+                                                        <a class="nav-link active text-white" asp-controller="Car" asp-action="Save">
+                                                            Addition
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item text-center">
+                                                        <a class="nav-link active text-white" asp-controller="" asp-action="Index">
+                                                            Users
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
                     }
                 </ul>
 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <input class="btn btn-danger rounded" style="font-family:'Comic Sans MS'; font-weight: bold; font-size:20px;" type="submit" value="Выход" />
-                    </form>
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <input class="btn btn-danger rounded" style="font-family:'Comic Sans MS'; font-weight: bold; font-size:20px;" type="submit" value="Выход" />
+                        </form>
+                    }
                 }
             </div>
         </nav>
@@ -136,7 +140,6 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Elite Auto Sales Company - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
