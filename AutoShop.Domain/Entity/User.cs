@@ -11,5 +11,7 @@ namespace AutoShop.Domain.Entity
         public string Password { get; set; }
 
         public Role Role { get; set; }
+
+        public Profile Profile { get; set; }
     }
 }

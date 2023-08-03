@@ -111,11 +111,11 @@ namespace AutoShop.Service.Implementations
             var claims = new List<Claim>()
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Role.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString()),
             };
 
             return new ClaimsIdentity(claims, "ApplicationCookie",
-                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultNameClaimType);
+                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
         }
     }
 }

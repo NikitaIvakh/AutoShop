@@ -24,10 +24,20 @@ namespace AutoShop.Presentation.Controllers
             return View("Error", $"{response.Description}");
         }
 
-        public async Task<ActionResult> GetCar(int id)
+        public async Task<ActionResult> GetCar(int id, bool isJson)
         {
             var response = await _carService.GetCarAsync(id);
+            if (isJson)
+                return Json(response.Data);
+
             return PartialView("GetCar", response.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetCar(string term, int page = 1, int pageSize = 3)
+        {
+            var response = await _carService.GetCarAsync(term);
+            return Json(response.Data);
         }
 
         [HttpGet]
@@ -85,6 +95,11 @@ namespace AutoShop.Presentation.Controllers
         {
             var types = _carService.GetTypes();
             return Json(types.Data);
+        }
+
+        public IActionResult Compare()
+        {
+            return PartialView();
         }
     }
 }

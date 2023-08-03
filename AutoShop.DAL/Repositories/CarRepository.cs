@@ -1,6 +1,5 @@
 ﻿using AutoShop.DAL.Interfaces;
 using AutoShop.Domain.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.DAL.Repositories
 {

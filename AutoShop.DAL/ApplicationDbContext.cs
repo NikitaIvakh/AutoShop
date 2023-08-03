@@ -14,6 +14,8 @@ namespace AutoShop.DAL
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Profile> Profiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(builder =>
@@ -30,6 +32,18 @@ namespace AutoShop.DAL
                 builder.Property(key => key.Id).ValueGeneratedOnAdd();
                 builder.Property(key => key.Name).HasMaxLength(100).IsRequired();
                 builder.Property(key => key.Password).IsRequired();
+
+                builder.HasOne(key => key.Profile).WithOne(key => key.User).HasPrincipalKey<User>(key => key.Id).OnDelete(DeleteBehavior.ClientCascade);
+            });
+
+            modelBuilder.Entity<Profile>(builder =>
+            {
+                builder.ToTable("Profiles").HasKey(key => key.Id);
+                builder.Property(key => key.Id).ValueGeneratedOnAdd();
+
+                builder.Property(key => key.Age);
+                builder.Property(key => key.Address).HasMaxLength(250);
+                builder.Property(key => key.UserId);
             });
         }
     }

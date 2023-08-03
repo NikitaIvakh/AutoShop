@@ -17,12 +17,11 @@ applicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(applicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-applicationBuilder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = new PathString("/Account/Login");
-        options.AccessDeniedPath = new PathString("/Account/Login");
-    });
+applicationBuilder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = new PathString("/Account/Login");
+    options.AccessDeniedPath = new PathString("/Account/Login");
+});
 
 applicationBuilder.Services.InitializeRepositories();
 applicationBuilder.Services.InitializeServices();

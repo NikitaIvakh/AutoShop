@@ -14,6 +14,7 @@
             case 2:
                 cardStyle = "col-md-6";
                 break;
+
             default:
                 cardStyle = "col-md-4";
                 break;
@@ -31,7 +32,16 @@
 <div class="card-buttons-group">
     <button class="btn btn-danger" id='hideCardsId'>Hide</button>
     <button class='btn btn-success' id='showCardsId'>Show</button>
-    <button class='btn btn-success' id='addCarId'>Add</button>
+</div>
+
+<div class="card col-md-12" style="margin: 10px;">
+    <div class="card-buttons-group">
+        <button class='btn btn-primary' id='compareBtnId'>Comparison</button>
+        @if (User.IsInRole("Admin"))
+        {
+            <button class='btn btn-success' id='addCarId'>Append</button>
+        }
+    </div>
 </div>
 
 <div style="padding: 10px;"></div>
@@ -48,7 +58,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">The list of cars is empty :(</h5>
                         <p class="card-text">
-                            The list will be updated later, do not worry
+                            The list will be updated later, don't worry
                         </p>
                     </div>
                 </div>
@@ -86,26 +96,24 @@
                     <div class="row row-cols-1 @cardStyle text-center">
                         <div class="col" style="padding: 10px;">
                             <div class="card">
-                                @*<img src="data:image/jpeg;base64,@Convert.ToBase64String(car.Avatar ?? Array.Empty<byte>())" class="card-img-top" alt="@car.Name">*@
-                                <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
-                                     class="img-fluid rounded-start rounded">
+                                <img src="~/img/Mustang.jpg" class="card-img-top card-image" alt="@car.Name">
                                 <div class="card-body">
                                     <h5 class="card-title">@car.Name</h5>
-                                    <p class="card-text">@car.Description</p>
+                                    <p class="card-text"><b>Short description:</b> @car.Description</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><b>Price:</b> @car.Price.ToString("C")</li>
-                                    <li class="list-group-item"><b>Type car:</b> @car.TypeCar</li>
+                                    <li class="list-group-item"><b>Price: </b> @car.Price.ToString("C")</li>
+                                    <li class="list-group-item"><b>Model: </b> @car.Model</li>
                                 </ul>
                                 <div class="card-body">
-                                    <button class="btn btn-primary" onclick="openModal(@car.Id)" asp-action="GetCar" asp-controller="Car" value="@car.Id" asp-route-id="@car.Id"
+                                    <button class="btn btn-primary" onclick="openModal({ url: '/Car/GetCar', data: '@car.Id' })"
                                             data-toggle="ajax-modal" data-target="Modal">
-                                        Open
+                                        View the car
                                     </button>
                                     @{
                                         if (User.IsInRole("Admin"))
                                         {
-                                            <button asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</button>
+                                            <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Remome car</a>
                                         }
                                     }
                                 </div>
@@ -116,42 +124,23 @@
             }
         </div>
     }
-
 }
-
-<div class="modal fade" id="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Information about the car</h5>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-close btn-secondary" data-bs-dismiss="modal"></button>
-                @{
-                    if (User.IsInRole("Admin"))
-                    {
-                        <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-</div>
 
 @section pageScripts {
 
+    <script src="~/js/showAndHide.js" asp-append-version="true"></script>
+    <script src="~/js/modal.js" asp-append-version="true"></script>
     <script>
+        let modal = $('#modal');
 
         function model() {
-            const model = {
+            return {
                 name: $('input#Name').val(),
                 model: $('input#Model').val(),
                 price: $('input#Price').val(),
-                description: $('input#Description').val()
+                description: $('input#Description').val(),
+                avatar: $('input#Avatar').val(),
             }
-            return model;
         };
 
         $('#saveBtn').on('click', function () {
@@ -162,18 +151,28 @@
             })
         });
 
-        var modal = $('#modal');
+        $('#compareBtnId').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Compare")',
+                success: function (response) {
+                    $('.modal-dialog').addClass("modal-lg");
+                    modal.find(".modal-body").html(response);
+                    modal.modal('show')
+                }
+            });
+        });
 
         $(".btn-close").click(function () {
             modal.modal('hide');
         });
 
-        function openModal(id) {
+        $('#addCarId').on('click', function () {
             $.ajax({
                 type: 'GET',
-                url: '/Car/GetCar',
-                data: { "id": id },
+                url: '/Car/Save',
                 success: function (response) {
+                    $('.modal-dialog').removeClass("modal-lg");
                     modal.find(".modal-body").html(response);
                     modal.modal('show')
                 },
@@ -184,24 +183,7 @@
                     alert(response.responseText);
                 }
             });
-        };
-
-        const hideCardElement = $('#hideCardsId');
-        const showCardElement = $('#showCardsId');
-        const cardElement = $('.card');
-
-        const interval = 2000;
-
-        hideCardElement.click(function () {
-            hideCardElement.hide(interval);
-            showCardElement.show(interval);
-            cardElement.hide(interval);
         });
 
-        showCardElement.click(function () {
-            hideCardElement.show(interval);
-            showCardElement.hide(interval);
-            cardElement.show(interval);
-        });
     </script>
 }

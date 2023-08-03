@@ -29,7 +29,7 @@ namespace AutoShop.Service.Implementations
                     Model = carViewModel.Model,
                     Speed = carViewModel.Speed,
                     Price = carViewModel.Price,
-                    DateCreate = carViewModel.DateCreate,
+                    DateCreate = DateTime.UtcNow,
                     TypeCar = (TypeCar)int.Parse(carViewModel.TypeCar),
                     Avatar = imageData,
                 };
@@ -74,8 +74,8 @@ namespace AutoShop.Service.Implementations
                     Model = car.Model,
                     Speed = car.Speed,
                     Price = car.Price,
-                    DateCreate = car.DateCreate,
-                    TypeCar = car.TypeCar.ToString(),
+                    DateCreate = car.DateCreate.ToShortDateString(),
+                    TypeCar = car.TypeCar.GetDisplayName(),
                     Image = car.Avatar,
                 };
 
@@ -132,19 +132,52 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var types = ((TypeCar[])Enum.GetValues(typeof(TypeCar))).ToDictionary(key => (int)key, value => value.GetDisplayName());
-                if (types is null)
+                var type = ((TypeCar[])Enum.GetValues(typeof(TypeCar))).ToDictionary(key => (int)key, value => value.GetDisplayName());
+                if (type is null)
                 {
-                    return new BaseResponse<IDictionary<int, string>>
+                    return new BaseResponse<IDictionary<int, string>>()
                     {
-                        Description = "Not found",
+                        Description = $"Type not found",
                         StatusCode = StatusCode.InternalServerError,
                     };
                 }
 
                 return new BaseResponse<IDictionary<int, string>>()
                 {
-                    Data = types,
+                    Data = type,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                return new BaseResponse<IDictionary<int, string>>()
+                {
+                    Description = $"[GetTypes] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<IDictionary<int, string>>> GetCarAsync(string term)
+        {
+            try
+            {
+                var cars = await _carRepository.GetAllElements().Select(key => new CarViewModel()
+                {
+                    Id = key.Id,
+                    Name = key.Name,
+                    Description = key.Description,
+                    Model = key.Model,
+                    Speed = key.Speed,
+                    Price = key.Price,
+                    DateCreate = key.DateCreate.ToShortDateString(),
+                    TypeCar = key.TypeCar.GetDisplayName(),
+                }).Where(key => EF.Functions.Like(key.Name, $"%{term}%")).ToDictionaryAsync(key => key.Id, value => value.Name);
+
+                return new BaseResponse<IDictionary<int, string>>()
+                {
+                    Data = cars,
                     StatusCode = StatusCode.Ok,
                 };
             }
@@ -178,9 +211,8 @@ namespace AutoShop.Service.Implementations
                 car.Model = carViewModel.Model;
                 car.Speed = carViewModel.Speed;
                 car.Price = carViewModel.Price;
-                car.DateCreate = carViewModel.DateCreate;
+                car.DateCreate = DateTime.ParseExact(carViewModel.DateCreate, "yyyyMMdd HH:mm", null);
 
-                // car.TypeCar = carViewModel.TypeCar;
                 await _carRepository.UpdateAsync(car);
 
                 return new BaseResponse<Car>()

@@ -1,11 +1,10 @@
 ﻿@model CarViewModel
 
+@*data:image/jpeg;base64,@Convert.ToBase64String(Model?.Image ?? Array.Empty<byte>())*@
 <form>
     <div class="row">
         <div class="col-md-12">
-            @*<img src="https://images.wallpaperscraft.ru/image/single/zdaniia_ogni_svechenie_279703_300x168.jpg"
-                 class="img-fluid rounded-start rounded" alt="@Model?.Name">*@
-            <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
+            <img src="https://images.wallpaperscraft.ru/image/single/zdaniia_ogni_svechenie_279703_300x168.jpg"
                  class="img-fluid rounded-start rounded" alt="@Model?.Name">
         </div>
     </div>

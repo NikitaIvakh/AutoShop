@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoShop.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230731183338_FixBugs")]
-    partial class FixBugs
+    [Migration("20230803143221_ProfileInformation")]
+    partial class ProfileInformation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,28 @@ namespace AutoShop.DAL.Migrations
                     b.ToTable("Cars");
                 });
 
+            modelBuilder.Entity("AutoShop.Domain.Entity.Profile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<short>("Age")
+                        .HasColumnType("smallint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profiles", (string)null);
+                });
+
             modelBuilder.Entity("AutoShop.Domain.Entity.User", b =>
                 {
                     b.Property<int>("Id")
@@ -97,6 +119,23 @@ namespace AutoShop.DAL.Migrations
                             Password = "a942b37ccfaf5a813b1432caa209a43b9d144e47ad0de1549c289c253e556cd5",
                             Role = 2
                         });
+                });
+
+            modelBuilder.Entity("AutoShop.Domain.Entity.Profile", b =>
+                {
+                    b.HasOne("AutoShop.Domain.Entity.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("AutoShop.Domain.Entity.Profile", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AutoShop.Domain.Entity.User", b =>
+                {
+                    b.Navigation("Profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
