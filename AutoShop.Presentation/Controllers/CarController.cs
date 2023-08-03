@@ -24,6 +24,7 @@ namespace AutoShop.Presentation.Controllers
             return View("Error", $"{response.Description}");
         }
 
+        [HttpGet]
         public async Task<ActionResult> GetCar(int id, bool isJson)
         {
             var response = await _carService.GetCarAsync(id);

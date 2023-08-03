@@ -61,7 +61,7 @@ namespace AutoShop.Service.Implementations
                     key.Profile.Age,
                     key.Profile.Address,
                     key.Role,
-                }).AsEnumerable().Select(key => new UserViewModel()
+                }).AsEnumerable().Select(key => new UserViewModel
                 {
                     Id = key.Id,
                     Name = key.Name,
