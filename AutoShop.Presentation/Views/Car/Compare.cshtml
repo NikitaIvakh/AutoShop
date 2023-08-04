@@ -44,7 +44,7 @@
 
 <div class="text-white bg-secondary" id="warningCardId">
     <div class="bg-secondary card-header text-white">
-        Предупреждение
+        Warning
     </div>
     <div class="card-body">
         <blockquote class="blockquote mb-0">
@@ -57,7 +57,7 @@
 
 <div id="resultCardId">
     <div class="bg-secondary card-header text-white">
-        Результат
+        Result
     </div>
     <div class="card-body">
         <ul class="list-group list-group-flush">
@@ -67,8 +67,8 @@
     </div>
 </div>
 
-<script src="~/lib/select2/js/select2.full.min.js" asp-append-version="true"></script>
-<script asp-append-version="true">
+<script src="~/lib/select2/js/select2.full.min.js"></script>
+<script>
     $(document).ready(function () {
 
         $('#firstCardId').hide();
@@ -80,12 +80,12 @@
         let secondCar = null;
 
         $('#firstCarId, #secondCarId').select2({
-            placeholder: "Выберите машину",
+            placeholder: "Choose a car",
             minimumInputLength: 2,
             allowClear: true,
             ajax: {
                 type: "POST",
-                url: "/Car/GetCar",
+                url: "@Url.Action("GetCar", "Car")",
                 dataType: "json",
                 data: function (params) {
                     var query = {
@@ -93,8 +93,10 @@
                         page: params.page || 1,
                         pageSize: params.pageSize || 5
                     };
+
                     return query;
                 },
+
                 processResults: function (result) {
                     return {
                         results: $.map(result, function (val, index) {
@@ -111,28 +113,33 @@
         function fillData(val, cardId) {
             if (cardId === 'firstCardId') {
                 $('#firstCardId').show();
-                $('#firstCardTitleId')[0].innerText = 'Название: ' + val.name;
-                $('#firstCardDescId')[0].innerText = 'Описание: ' + val.description;
-                $('#firstCardSpeedId')[0].innerText = 'Скорость: ' + val.speed + ' км/ч';
-                $('#firstCardPriceId')[0].innerText = 'Стоимость: ' + val.price + ' ₽';
-                $('#firstCardModelId')[0].innerText = 'Модель: ' + val.model;
-                $('#firstCardDateCreateId')[0].innerText = 'Дата создания: ' + val.dateCreate;
-            } else {
-                $('#secondCarId').show();
-                $('#secondCardTitleId')[0].innerText = 'Название: ' + val.name;
-                $('#secondCardDescId')[0].innerText = 'Описание: ' + val.description;
-                $('#secondCardSpeedId')[0].innerText = 'Скорость: ' + val.speed + ' км/ч';
-                $('#secondCardPriceId')[0].innerText = 'Стоимость: ' + val.price + ' ₽';
-                $('#secondCardModelId')[0].innerText = 'Модель: ' + val.model;
-                $('#secondCardDateCreateId')[0].innerText = 'Дата создания: ' + val.dateCreate;
+                $('#firstCardTitleId')[0].innerText = 'Name: ' + val.name;
+                $('#firstCardDescId')[0].innerText = 'Description: ' + val.description;
+                $('#firstCardSpeedId')[0].innerText = 'Speed: ' + val.speed + ' km/h';
+                $('#firstCardPriceId')[0].innerText = 'Price: ' + val.price + ' Br';
+                $('#firstCardModelId')[0].innerText = 'Model: ' + val.model;
+                $('#firstCardDateCreateId')[0].innerText = 'Date of creation: ' + val.dateCreate;
             }
+
+            else {
+                $('#secondCarId').show();
+                $('#secondCardTitleId')[0].innerText = 'Name: ' + val.name;
+                $('#secondCardDescId')[0].innerText = 'Description: ' + val.description;
+                $('#secondCardSpeedId')[0].innerText = 'Speed: ' + val.speed + ' km/h';
+                $('#secondCardPriceId')[0].innerText = 'Price: ' + val.price + ' Br';
+                $('#secondCardModelId')[0].innerText = 'Model: ' + val.model;
+                $('#secondCardDateCreateId')[0].innerText = 'Date of creation: ' + val.dateCreate;
+            }
+
             compareCars();
         }
 
 
         $("#secondCarId").on("change", function () {
             const id = this.value;
-            if (id === "") return;
+            if (id === "")
+                return;
+
             $.get("/Car/GetCar", { id: id, isJson: true }, function (data) {
                 secondCar = data;
                 fillData(secondCar, "secondCarId");
@@ -141,7 +148,9 @@
 
         $("#firstCarId").on("change", function () {
             const id = this.value;
-            if (id === "") return;
+            if (id === "")
+                return;
+
             $.get("/Car/GetCar", { id: id, isJson: true }, function (data) {
                 firstCar = data;
                 fillData(firstCar, "firstCardId");
@@ -150,33 +159,44 @@
 
         function compareCars() {
             if (firstCar === null) {
-                $('#warningId')[0].innerText = 'Вы не выбрали первый автомобиль';
+                $('#warningId')[0].innerText = 'You didn\'t choose the first car';
                 $('#warningCardId').show();
+
                 return;
             }
 
             if (secondCar === null) {
-                $('#warningId')[0].innerText = 'Вы не выбрали второй автомобиль';
+                $('#warningId')[0].innerText = 'You didn\'t choose a second car';
                 $('#warningCardId').show();
+
                 return;
             }
 
             var speed = $('#resultSpeedId')[0];
             if (firstCar.speed > secondCar.speed) {
-                speed.innerText = 'Скорость ' + firstCar.name + ' выше, чем у ' + secondCar.name;
-            } else if (firstCar.speed === secondCar.speed) {
-                speed.innerText = 'Скорость ' + secondCar.name + ' и ' + firstCar.name + ' равны';
-            } else {
-                speed.innerText = 'Скорость ' + secondCar.name + ' выше, чем у ' + firstCar.name;
+                speed.innerText = 'Speed ' + firstCar.name + ' higher than the ' + secondCar.name;
+            }
+
+            else if (firstCar.speed === secondCar.speed) {
+                speed.innerText = 'Speed ' + secondCar.name + ' and ' + firstCar.name + ' equal';
+            }
+
+            else {
+                speed.innerText = 'Speed ' + secondCar.name + ' higher than theу ' + firstCar.name;
             }
 
             var price = $('#resultPriceId')[0];
+
             if (firstCar.price > secondCar.price) {
-                price.innerText = 'Стоимость ' + firstCar.name + ' выше, чем у ' + secondCar.name;
-            } else if (firstCar.price === secondCar.price) {
-                price.innerText = 'Стоимость ' + firstCar.name + ' и ' + secondCar.name + ' равны';
-            } else {
-                price.innerText = 'Стоимость ' + firstCar.name + ' выше, чем у ' + secondCar.name;
+                price.innerText = 'Price ' + firstCar.name + ' higher than the ' + secondCar.name;
+            }
+
+            else if (firstCar.price === secondCar.price) {
+                price.innerText = 'Price ' + firstCar.name + ' and ' + secondCar.name + ' equal';
+            }
+
+            else {
+                price.innerText = 'Price ' + firstCar.name + ' higher than theу ' + secondCar.name;
             }
 
             $('#resultCardId').show();

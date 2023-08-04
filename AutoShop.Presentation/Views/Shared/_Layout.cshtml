@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Elite Auto Sales</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" type="text/css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" asp-append-version="true" type="text/css" />
     <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet" asp-append-version="true" type="text/css">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" type="text/css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" type="text/css" />
     <link rel="stylesheet" href="~/css/backImage.css" asp-append-version="true" type="text/css" />
     <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" type="text/css" />
@@ -35,7 +35,8 @@
                         if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold;">
+                                <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                   style="font-family:'Comic Sans MS'; font-weight: bold; font-size: 20px">
                                     Account
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -154,8 +155,8 @@
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
     <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" asp-append-version="true"></script>
     <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("pageScripts", required: false)
 </body>
 </html>

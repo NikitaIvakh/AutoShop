@@ -14,7 +14,6 @@
             case 2:
                 cardStyle = "col-md-6";
                 break;
-
             default:
                 cardStyle = "col-md-4";
                 break;
@@ -28,11 +27,6 @@
         padding: 10px;
     }
 </style>
-
-@*<div class="card-buttons-group">
-    <button class="btn btn-danger" id='hideCardsId'>Hide</button>
-    <button class='btn btn-success' id='showCardsId'>Show</button>
-</div>*@
 
 <div class="card col-md-12" style="margin: 10px;">
     <div class="card-buttons-group">
@@ -53,13 +47,14 @@
         <div class="card col-md-12">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg" class="img-fluid rounded-start rounded" />
+                    <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
+                         class="img-fluid rounded-start rounded">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title text-center">The list of cars is empty :(</h5>
                         <p class="card-text">
-                            The list will be updated later, don't worry
+                            The list will be updated later, do not worry
                         </p>
                     </div>
                 </div>
@@ -100,11 +95,11 @@
                                 <img src="~/img/Mustang.jpg" class="card-img-top card-image" alt="@car.Name">
                                 <div class="card-body">
                                     <h5 class="card-title">@car.Name</h5>
-                                    <p class="card-text"><b>Short description:</b> @car.Description.Substring(0, 10) ...</p>
+                                    <p class="card-text"><b>Short description: </b>@car.Description.Substring(0, 25) ...</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><b>Price: </b> @car.Price.ToString("C")</li>
-                                    <li class="list-group-item"><b>Model: </b> @car.Model</li>
+                                    <li class="list-group-item"><b>Price: </b>@car.Price.ToString("C")</li>
+                                    <li class="list-group-item"><b>Model: </b>@car.Model</li>
                                 </ul>
                                 <div class="card-body">
                                     <button class="btn btn-primary" onclick="openModal({ url: '/Car/GetCar', data: '@car.Id' })"
@@ -114,7 +109,7 @@
                                     @{
                                         if (User.IsInRole("Admin"))
                                         {
-                                            <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Remome car</a>
+                                            <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete a car</a>
                                         }
                                     }
                                 </div>
@@ -133,28 +128,26 @@
     <script>
         let modal = $('#modal');
 
-        function model() {
-            return {
+        $('#saveBtn').on('click', function () {
+            const model = {
                 name: $('input#Name').val(),
                 model: $('input#Model').val(),
                 price: $('input#Price').val(),
                 description: $('input#Description').val(),
                 avatar: $('input#Avatar').val(),
-            }
-        };
+            };
 
-        $('#saveBtn').on('click', function () {
             $.ajax({
-                type: "POST",
-                url: "/Car/Save",
-                data: model(),
+                url: '@Url.Action("Save")',
+                type: 'POST',
+                data: JSON.stringify(model),
             })
         });
 
         $('#compareBtnId').on('click', function () {
             $.ajax({
-                type: "GET",
-                url: "/Car/Compare",
+                type: 'GET',
+                url: '@Url.Action("Compare")',
                 success: function (response) {
                     $('.modal-dialog').addClass("modal-lg");
                     modal.find(".modal-body").html(response);
@@ -169,21 +162,22 @@
 
         $('#addCarId').on('click', function () {
             $.ajax({
-                type: "GET",
-                url: "/Car/Save",
+                type: 'GET',
+                url: '/Car/Save',
                 success: function (response) {
                     $('.modal-dialog').removeClass("modal-lg");
                     modal.find(".modal-body").html(response);
                     modal.modal('show')
                 },
+
                 failure: function () {
                     modal.modal('hide')
                 },
+
                 error: function (response) {
                     alert(response.responseText);
                 }
             });
         });
-
     </script>
 }

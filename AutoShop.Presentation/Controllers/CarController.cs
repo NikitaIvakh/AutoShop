@@ -45,7 +45,7 @@ namespace AutoShop.Presentation.Controllers
         public async Task<IActionResult> Save(int id)
         {
             if (id == 0)
-                return View();
+                return PartialView();
 
             var response = await _carService.GetCarAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)

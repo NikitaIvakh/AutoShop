@@ -5,10 +5,10 @@
 }
 
 @{
-    var textTitle = Model?.Id == 0 ? "Change Data" : "Add Data";
+    var textTitle = Model?.Id == 0 ? "Change Data" : "Addition data";
 }
 
-<form asp-controller="Car" asp-action="Save" enctype="multipart/form-data">
+<form asp-controller="Car" asp-action="Save" enctype="multipart/form-data" id="formSaveCar">
     <input asp-for="Id" hidden />
     <div asp-validation-summary="All" style="font-size:23px; font-family:Impact, serif" class="text-danger text-center"></div>
     <div class="row">
@@ -43,7 +43,7 @@
     </div>
 </form>
 
-<script src="~/lib/select2/js/select2.full.min.js"></script>
+<script src="~/lib/select2/js/select2.full.min.js" asp-append-version="true"></script>
 <script>
     $('#carTypeId').select2({
         placeholder: "Select the type",

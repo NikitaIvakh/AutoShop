@@ -51,12 +51,12 @@
 <script src="~/lib/select2/js/select2.full.min.js" asp-append-version="true"></script>
 <script>
     $('#carTypeId2').select2({
-        placeholder: "Выберите тип",
+        placeholder: "Select the type",
         minimumInputLength: 0,
         allowClear: true,
         ajax: {
             type: "POST",
-            url: "/Car/GetTypes",
+            url: "@Url.Action("GetTypes", "Car")",
             dataType: "json",
             processResults: function (result) {
                 return {
