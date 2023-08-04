@@ -29,10 +29,10 @@
     }
 </style>
 
-<div class="card-buttons-group">
+@*<div class="card-buttons-group">
     <button class="btn btn-danger" id='hideCardsId'>Hide</button>
     <button class='btn btn-success' id='showCardsId'>Show</button>
-</div>
+</div>*@
 
 <div class="card col-md-12" style="margin: 10px;">
     <div class="card-buttons-group">
@@ -53,8 +53,7 @@
         <div class="card col-md-12">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
-                         class="img-fluid rounded-start rounded">
+                    <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg" class="img-fluid rounded-start rounded" />
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -101,7 +100,7 @@
                                 <img src="~/img/Mustang.jpg" class="card-img-top card-image" alt="@car.Name">
                                 <div class="card-body">
                                     <h5 class="card-title">@car.Name</h5>
-                                    <p class="card-text"><b>Short description:</b> @car.Description</p>
+                                    <p class="card-text"><b>Short description:</b> @car.Description.Substring(0, 10) ...</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item"><b>Price: </b> @car.Price.ToString("C")</li>
@@ -130,7 +129,6 @@
 
 @section pageScripts {
 
-    <script src="~/js/showAndHide.js" asp-append-version="true"></script>
     <script src="~/js/modal.js" asp-append-version="true"></script>
     <script>
         let modal = $('#modal');
@@ -147,16 +145,16 @@
 
         $('#saveBtn').on('click', function () {
             $.ajax({
-                url: '@Url.Action("Save")',
-                type: 'POST',
+                type: "POST",
+                url: "/Car/Save",
                 data: model(),
             })
         });
 
         $('#compareBtnId').on('click', function () {
             $.ajax({
-                type: 'GET',
-                url: '@Url.Action("Compare")',
+                type: "GET",
+                url: "/Car/Compare",
                 success: function (response) {
                     $('.modal-dialog').addClass("modal-lg");
                     modal.find(".modal-body").html(response);
@@ -171,8 +169,8 @@
 
         $('#addCarId').on('click', function () {
             $.ajax({
-                type: 'GET',
-                url: '/Car/Save',
+                type: "GET",
+                url: "/Car/Save",
                 success: function (response) {
                     $('.modal-dialog').removeClass("modal-lg");
                     modal.find(".modal-body").html(response);

@@ -10,6 +10,6 @@ namespace AutoShop.Service.Interfaces
 
         Task<IBaseResponse<UserViewModel>> GetUserAsync(long id);
 
-        Task<IBaseResponse<User>> DeleteAsync(long id);
+        Task<IBaseResponse<bool>> DeleteAsync(long id);
     }
 }

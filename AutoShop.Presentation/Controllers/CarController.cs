@@ -35,7 +35,7 @@ namespace AutoShop.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetCar(string term, int page = 1, int pageSize = 3)
+        public async Task<IActionResult> GetCar(string term, int page = 1, int pageSize = 5)
         {
             var response = await _carService.GetCarAsync(term);
             return Json(response.Data);
@@ -45,14 +45,14 @@ namespace AutoShop.Presentation.Controllers
         public async Task<IActionResult> Save(int id)
         {
             if (id == 0)
-                return View();
+                return PartialView();
 
             var response = await _carService.GetCarAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-                return View(response.Data);
+                return PartialView(response.Data);
 
             ModelState.AddModelError("", response.Description);
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
@@ -75,7 +75,7 @@ namespace AutoShop.Presentation.Controllers
                 else
                     await _carService.EditCarAsync(carViewModel);
 
-                return RedirectToAction("GetCars");
+                return RedirectToAction("Car", "GetCars");
             }
 
             return View();
@@ -98,6 +98,7 @@ namespace AutoShop.Presentation.Controllers
             return Json(types.Data);
         }
 
+        [HttpGet]
         public IActionResult Compare()
         {
             return PartialView();
