@@ -101,7 +101,7 @@ namespace AutoShop.Service.Implementations
             try
             {
                 var cars = _carRepository.GetAllElements();
-                if (cars is null)
+                if (!cars.Any())
                 {
                     return new BaseResponse<IEnumerable<Car>>()
                     {

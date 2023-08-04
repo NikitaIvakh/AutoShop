@@ -25,13 +25,14 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var users = _userRepository.GetAllElements().AsEnumerable().Select(key => new UserViewModel
+                var users = await _userRepository.GetAllElements().Where(key => key.Role == Role.Admin).Select(key => new UserViewModel
                 {
                     Id = key.Id,
                     Name = key.Name,
                     Role = key.Role.GetDisplayName(),
-                });
+                }).ToListAsync();
 
+                _logger.LogInformation($"[UserService.GetUsersAsync] elements received - {users.Count}");
                 return new BaseResponse<IEnumerable<UserViewModel>>()
                 {
                     Data = users,
@@ -41,10 +42,10 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"[GetUsers] : {ex.Message}");
+                _logger.LogError(ex, $"[GetUsersAsync] : {ex.Message}");
                 return new BaseResponse<IEnumerable<UserViewModel>>()
                 {
-                    Description = $"[GetUsers] : {ex.Message}",
+                    Description = $"[GetUsersAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
                 };
             }
@@ -79,23 +80,23 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"[GetUser] : {ex.Message}");
+                _logger.LogError(ex, $"[GetUserAsync] : {ex.Message}");
                 return new BaseResponse<UserViewModel>()
                 {
-                    Description = $"[GetUser] : {ex.Message}",
+                    Description = $"[GetUserAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<User>> DeleteAsync(long id)
+        public async Task<IBaseResponse<bool>> DeleteAsync(long id)
         {
             try
             {
                 var user = await _userRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == id);
                 if (user is null)
                 {
-                    return new BaseResponse<User>()
+                    return new BaseResponse<bool>()
                     {
                         Description = $"User not found",
                         StatusCode = StatusCode.UserNotFound,
@@ -104,16 +105,19 @@ namespace AutoShop.Service.Implementations
 
                 await _userRepository.DeleteAsync(user);
 
-                return new BaseResponse<User>()
+                _logger.LogInformation($"[UserService.DeleteAsync] - User deleted");
+                return new BaseResponse<bool>()
                 {
                     Description = $"User deleted",
                     StatusCode = StatusCode.Ok,
+                    Data = true,
                 };
             }
 
             catch (Exception ex)
             {
-                return new BaseResponse<User>
+                _logger.LogError(ex, $"[DeleteAsync] : {ex.Message}");
+                return new BaseResponse<bool>
                 {
                     Description = $"[DeleteAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
