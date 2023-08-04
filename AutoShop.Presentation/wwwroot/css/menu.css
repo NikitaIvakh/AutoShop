@@ -4,7 +4,7 @@
 
 .navbar .dropdown-menu {
     border: none;
-    background-color: black !important; /*Смена цвета #2C3539*/
+    background-color: black !important; /*Change color #2C3539*/
 }
 
 @media screen and (min-width: 992px) {

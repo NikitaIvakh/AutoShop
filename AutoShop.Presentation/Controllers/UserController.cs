@@ -45,7 +45,7 @@ namespace AutoShop.Presentation.Controllers
         {
             var user = Enum.Parse<Role>(userViewModel.Role);
             if (ModelState.IsValid)
-                return RedirectToAction("GetUser");
+                return RedirectToAction("User", "GetUser");
 
             return Ok(user);
         }

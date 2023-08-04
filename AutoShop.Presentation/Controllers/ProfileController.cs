@@ -42,7 +42,7 @@ namespace AutoShop.Presentation.Controllers
                 else
                     await _profileService.EditAsync(profileViewModel);
 
-                return RedirectToAction("ProfileInfo");
+                return RedirectToAction("Profile", "ProfileInfo");
             }
 
             return View();
