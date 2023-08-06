@@ -53,7 +53,7 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public Task<IBaseResponse<Car>> EditAsync(ProfileViewModel profileViewModel)
+        public Task<IBaseResponse<Profile>> EditAsync(ProfileViewModel profileViewModel)
         {
             throw new NotImplementedException();
         }
