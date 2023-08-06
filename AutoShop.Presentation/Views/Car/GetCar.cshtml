@@ -1,11 +1,5 @@
 ﻿@model CarViewModel
 
-<style>
-    label {
-        color: black;
-    }
-</style>
-
 @*data:image/jpeg;base64,@Convert.ToBase64String(Model?.Image ?? Array.Empty<byte>())*@
 <form>
     <div class="row">
@@ -47,6 +41,12 @@
         </div>
     </div>
 </form>
+
+<style>
+    label {
+        color: black;
+    }
+</style>
 
 <script src="~/lib/select2/js/select2.full.min.js" asp-append-version="true"></script>
 <script>
