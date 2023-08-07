@@ -5,16 +5,19 @@ using AutoShop.Domain.Response;
 using AutoShop.Domain.ViewModels.Profile;
 using AutoShop.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AutoShop.Service.Implementations
 {
     public class ProfileService : IProfileService
     {
         private readonly IBaseRepository<Profile> _baseRepository;
+        private readonly ILogger<ProfileService> _logger;
 
-        public ProfileService(IBaseRepository<Profile> baseRepository)
+        public ProfileService(IBaseRepository<Profile> baseRepository, ILogger<ProfileService> logger)
         {
             _baseRepository = baseRepository;
+            _logger = logger;
         }
 
         public async Task<IBaseResponse<Profile>> CreateAsync(ProfileViewModel profileViewModel)
@@ -22,32 +25,39 @@ namespace AutoShop.Service.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<IBaseResponse<Profile>> GetAsync(string userName)
+        public async Task<IBaseResponse<ProfileViewModel>> GetAsync(string userName)
         {
             try
             {
-                var car = await _baseRepository.GetAllElements().Include(key => key.User).FirstOrDefaultAsync(key => key.User.Name == userName);
-                if (car is null)
+                var profile = await _baseRepository.GetAllElements().Include(key => key.User).Select(key => new ProfileViewModel
                 {
-                    return new BaseResponse<Profile>()
+                    Id = key.Id,
+                    Age = key.Age,
+                    Address = key.Address,
+                    UserName = key.User.Name,
+                }).FirstOrDefaultAsync(key => key.UserName == userName);
+
+                if (profile is null)
+                {
+                    return new BaseResponse<ProfileViewModel>()
                     {
-                        Description = $"User not found",
-                        StatusCode = StatusCode.UserNotFound,
+                        Description = $"Profile is null",
                     };
                 }
 
-                return new BaseResponse<Profile>()
+                return new BaseResponse<ProfileViewModel>()
                 {
-                    Data = car,
+                    Data = profile,
                     StatusCode = StatusCode.Ok,
                 };
             }
 
             catch (Exception ex)
             {
-                return new BaseResponse<Profile>
+                _logger.LogError(ex, $"[ProfileService.GetAsync] : {ex.Message}");
+                return new BaseResponse<ProfileViewModel>
                 {
-                    Description = $"[Get] : {ex.Message}",
+                    Description = $"[ProfileService.GetAsync] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError
                 };
             }

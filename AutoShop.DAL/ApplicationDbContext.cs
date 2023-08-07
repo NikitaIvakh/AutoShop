@@ -20,6 +20,8 @@ namespace AutoShop.DAL
         {
             modelBuilder.Entity<User>(builder =>
             {
+                builder.ToTable("Users").HasKey(key => key.Id);
+
                 builder.HasData(new User
                 {
                     Id = 1,
@@ -28,12 +30,11 @@ namespace AutoShop.DAL
                     Role = Role.Admin,
                 });
 
-                builder.ToTable("Users").HasKey(key => key.Id);
                 builder.Property(key => key.Id).ValueGeneratedOnAdd();
                 builder.Property(key => key.Name).HasMaxLength(100).IsRequired();
                 builder.Property(key => key.Password).IsRequired();
 
-                builder.HasOne(key => key.Profile).WithOne(key => key.User).HasPrincipalKey<User>(key => key.Id).OnDelete(DeleteBehavior.ClientCascade);
+                builder.HasOne(key => key.Profile).WithOne(key => key.User).HasPrincipalKey<User>(key => key.Id).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Profile>(builder =>
@@ -41,9 +42,8 @@ namespace AutoShop.DAL
                 builder.ToTable("Profiles").HasKey(key => key.Id);
                 builder.Property(key => key.Id).ValueGeneratedOnAdd();
 
-                builder.Property(key => key.Age);
-                builder.Property(key => key.Address).HasMaxLength(250);
-                builder.Property(key => key.UserId);
+                builder.Property(key => key.Age).IsRequired();
+                builder.Property(key => key.Address).HasMaxLength(250).IsRequired();
             });
         }
     }

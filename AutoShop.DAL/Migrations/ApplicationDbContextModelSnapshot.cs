@@ -64,16 +64,18 @@ namespace AutoShop.DAL.Migrations
 
             modelBuilder.Entity("AutoShop.Domain.Entity.Profile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<short>("Age")
+                    b.Property<byte>("Age")
                         .HasColumnType("smallint");
 
                     b.Property<long>("UserId")
@@ -81,16 +83,19 @@ namespace AutoShop.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("AutoShop.Domain.Entity.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -111,7 +116,7 @@ namespace AutoShop.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 1L,
                             Name = "Nikita_Ivakh",
                             Password = "a942b37ccfaf5a813b1432caa209a43b9d144e47ad0de1549c289c253e556cd5",
                             Role = 2
@@ -122,8 +127,8 @@ namespace AutoShop.DAL.Migrations
                 {
                     b.HasOne("AutoShop.Domain.Entity.User", "User")
                         .WithOne("Profile")
-                        .HasForeignKey("AutoShop.Domain.Entity.Profile", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .HasForeignKey("AutoShop.Domain.Entity.Profile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
