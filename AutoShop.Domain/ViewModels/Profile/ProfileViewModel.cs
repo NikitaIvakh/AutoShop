@@ -8,11 +8,11 @@ namespace AutoShop.Domain.ViewModels.Profile
 
         [Required(ErrorMessage = "Specify the age")]
         [Range(0, 150, ErrorMessage = "The age range should be from 0 to 150")]
-        [MaxLength(250, ErrorMessage = "The maximum length must be less than 250 characters")]
         public byte Age { get; set; }
 
         [Required(ErrorMessage = "Enter the address")]
         [MinLength(5, ErrorMessage = "The minimum length must be more than 5 characters")]
+        [MaxLength(250, ErrorMessage = "The maximum length must be less than 250 characters")]
         public string Address { get; set; }
 
         public string UserName { get; set; }

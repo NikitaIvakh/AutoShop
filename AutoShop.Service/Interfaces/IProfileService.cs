@@ -6,10 +6,8 @@ namespace AutoShop.Service.Interfaces
 {
     public interface IProfileService
     {
-        Task<IBaseResponse<Profile>> CreateAsync(ProfileViewModel profileViewModel);
+        Task<IBaseResponse<ProfileViewModel>> GetProfileAsync(string userName);
 
-        Task<IBaseResponse<ProfileViewModel>> GetAsync(string userName);
-
-        Task<IBaseResponse<Profile>> EditAsync(ProfileViewModel profileViewModel);
+        Task<IBaseResponse<Profile>> SaveAsync(ProfileViewModel profileViewModel);
     }
 }
