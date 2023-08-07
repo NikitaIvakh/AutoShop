@@ -32,6 +32,15 @@ namespace AutoShop.Service.Implementations
                     Role = key.Role.GetDisplayName(),
                 }).ToListAsync();
 
+                if (users is null)
+                {
+                    return new BaseResponse<IEnumerable<UserViewModel>>()
+                    {
+                        Description = $"Users not found",
+                        StatusCode = StatusCode.UserNotFound,
+                    };
+                }
+
                 _logger.LogInformation($"[UserService.GetUsersAsync] elements received - {users.Count}");
                 return new BaseResponse<IEnumerable<UserViewModel>>()
                 {
@@ -70,6 +79,15 @@ namespace AutoShop.Service.Implementations
                     Address = key.Address,
                     Role = key.Role.GetDisplayName(),
                 }).FirstOrDefault();
+
+                if (user is null)
+                {
+                    return new BaseResponse<UserViewModel>()
+                    {
+                        Description = $"User not found",
+                        StatusCode = StatusCode.UserNotFound,
+                    };
+                }
 
                 return new BaseResponse<UserViewModel>()
                 {

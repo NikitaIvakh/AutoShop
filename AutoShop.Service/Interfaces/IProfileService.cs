@@ -8,6 +8,6 @@ namespace AutoShop.Service.Interfaces
     {
         Task<IBaseResponse<ProfileViewModel>> GetProfileAsync(string userName);
 
-        Task<IBaseResponse<Profile>> SaveAsync(ProfileViewModel profileViewModel);
+        Task<IBaseResponse<Profile>> UpdateAsync(ProfileViewModel profileViewModel);
     }
 }

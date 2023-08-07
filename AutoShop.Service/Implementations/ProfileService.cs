@@ -58,7 +58,7 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Profile>> SaveAsync(ProfileViewModel profileViewModel)
+        public async Task<IBaseResponse<Profile>> UpdateAsync(ProfileViewModel profileViewModel)
         {
             try
             {

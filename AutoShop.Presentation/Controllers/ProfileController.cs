@@ -31,7 +31,7 @@ namespace AutoShop.Presentation.Controllers
             ModelState.Remove("UserName");
             if (ModelState.IsValid)
             {
-                var response = await _profileService.SaveAsync(profileViewModel);
+                var response = await _profileService.UpdateAsync(profileViewModel);
                 if (response.StatusCode == Domain.Enum.StatusCode.Ok)
                     return Json(new { description = response.Description });
             }
