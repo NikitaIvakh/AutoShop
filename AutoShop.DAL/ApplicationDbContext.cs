@@ -42,8 +42,8 @@ namespace AutoShop.DAL
                 builder.ToTable("Profiles").HasKey(key => key.Id);
                 builder.Property(key => key.Id).ValueGeneratedOnAdd();
 
-                builder.Property(key => key.Age).IsRequired();
-                builder.Property(key => key.Address).HasMaxLength(250).IsRequired();
+                builder.Property(key => key.Age);
+                builder.Property(key => key.Address).HasMaxLength(250).IsRequired(false);
             });
         }
     }

@@ -1,12 +1,14 @@
-﻿@model Profile
+﻿@model ProfileViewModel
 
 @{
     ViewBag.Title = "User profile";
+    var age = @Model.Age;
+    var address = @Model.Address ?? "Empty";
 }
 
 <div class="card col-md-12" style="margin: 10px;">
     <div class="card-buttons-group">
-        <button class='btn btn-primary' id='addProfileCardId'>Append</button>
+        <button class='btn btn-primary' id='addProfileCardId'>Add</button>
     </div>
 </div>
 
@@ -16,85 +18,10 @@
             <div class="card-body">
                 <h5 class="card-title">Profile Data</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><b>Age: </b>@Model?.Age</li>
-                    <li class="list-group-item"><b>Address: </b>@Model?.Address</li>
+                    <li class="list-group-item">Age: @age</li>
+                    <li class="list-group-item">Address: @address</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special treatment of the title</h5>
-                <p class="card-text">With the supporting text below as a natural transition to additional content.</p>
-                <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
 </div>
-
-<div class="modal fade" id="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Information about the car</h5>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-close btn-secondary" data-bs-dismiss="modal"></button>
-                @{
-                    if (User.IsInRole("Admin"))
-                    {
-                        <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-</div>
-
-@section pageScripts
-    {
-    <script>
-        let modal = $('#modal');
-
-        function model() {
-            const model = {
-                age: $('input#Age').val(),
-                address: $('input#Address').val()
-            }
-
-            return model;
-        };
-
-        $('#saveBtn').on('click', function () {
-            $.ajax({
-                url: '@Url.Action("Save")',
-                type: 'POST',
-                data: model(),
-            })
-        });
-
-        $('#addProfileCardId').on('click', function () {
-            $.ajax({
-                type: 'GET',
-                url: '/Profile/Save',
-                success: function (response) {
-                    $('.modal-dialog').removeClass("modal-lg");
-                    modal.find(".modal-body").html(response);
-                    modal.modal('show')
-                },
-
-                failure: function () {
-                    modal.modal('hide')
-                },
-
-                error: function (response) {
-                    alert(response.responseText);
-                }
-            });
-        });
-
-    </script>
-}
