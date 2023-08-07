@@ -15,10 +15,12 @@
                     <div class="mb-3">
                         <label class="form-label text-black-50">Age</label>
                         <input type="text" class="form-control" asp-for="Age" placeholder="Input age...">
+                        <div class="form-text">The age must be specified from 0 to 150 years.</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-black-50">Address</label>
                         <textarea class="form-control" asp-for="Address" rows="3" placeholder="Input address..."></textarea>
+                        <div class="form-text">The length of the address must be from 5 to 200 characters.</div>
                     </div>
                     <div class="card-buttons-group">
                         <button class='btn btn-primary' id='saveProfileId'>Save</button>
@@ -32,13 +34,30 @@
 @section pageScripts
     {
     <script>
-        $('#saveProfileId').on("click", function () {
-            const data = $('#profileFormId').serialize();
+        $('#saveProfileId').on('click', function (e) {
+            e.preventDefault();
+            const data = $('#profileFormId').serialize()
             $.ajax({
+                url: '@Url.Action("Save", "Profile")',
                 type: 'POST',
-                url: '@Url.Action("Save")',
-                data: data
-            })
+                data: data,
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: response.description,
+                        icon: 'success',
+                        confirmButtonText: 'Good'
+                    })
+                },
+                error: function (data) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: 'The data is not saved! Error when filling out the form',
+                        icon: 'error',
+                        confirmButtonText: 'Good'
+                    })
+                }
+            });
         });
     </script>
 }

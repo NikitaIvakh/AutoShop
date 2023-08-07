@@ -30,9 +30,13 @@ namespace AutoShop.Presentation.Controllers
         {
             ModelState.Remove("UserName");
             if (ModelState.IsValid)
-                await _profileService.SaveAsync(profileViewModel);
+            {
+                var response = await _profileService.SaveAsync(profileViewModel);
+                if (response.StatusCode == Domain.Enum.StatusCode.Ok)
+                    return Json(new { description = response.Description });
+            }
 
-            return RedirectToAction("Detail");
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

@@ -12,29 +12,22 @@
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <span class="anchor"></span>
-                    <div class="card card-outline-secondary border border-white">
+                    <div class="card card-account card-outline-secondary border border-white">
                         <div class="card-header">
-                            <h3 class="mb-0 text-center ParagraphHome">Login to your account</h3>
+                            <h3 class="mb-0 text-center ParagraphHome">Log in to your account</h3>
                         </div>
                         <div class="card-body">
                             <form autocomplete="on" method="post" asp-controller="Account" asp-action="Login">
                                 <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
-
                                 <div class="form-group">
-                                    <input asp-for="Name" placeholder="Login" class="form-control textbox-dg font-weight-bold text-center" type="text">
+                                    <input asp-for="Name" placeholder="Логин" class="form-control textbox-dg font-weight-bold text-center" type="text">
+                                    <div class="form-text">The length of the login must be from 3 to 20 characters.</div>
                                 </div>
-
                                 <div class="form-group">
-                                    <input autocomplete="new-password" asp-for="Password" placeholder="Password" class="form-control textbox-dg font-weight-bold text-center" type="password">
+                                    <input autocomplete="new-password" asp-for="Password" placeholder="Input password..." class="form-control textbox-dg font-weight-bold text-center" type="password">
                                 </div>
-
-                                <a asp-controller="Account" asp-action="Register" type="button" class="btn btn-lg btn-primary float-right">
-                                    Registration
-                                </a>
-
-                                <button class="btn btn-success btn-lg float-right">
-                                    Log in to your account
-                                </button>
+                                <a asp-controller="Account" asp-action="Register" type="button" class="btn btn-lg btn-primary float-right">Registration</a>
+                                <button class="btn btn-success btn-lg float-right">Submit</button>
                             </form>
                         </div>
                     </div>

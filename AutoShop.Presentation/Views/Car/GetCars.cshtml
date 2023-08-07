@@ -128,7 +128,7 @@
 
 @section pageScripts {
 
-    <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script src="~/js/modal.js"></script>
     <script>
         let modal = $('#modal');
 
@@ -145,6 +145,22 @@
                 url: '@Url.Action("Save")',
                 type: 'POST',
                 data: JSON.stringify(model),
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: response.description,
+                        icon: 'success',
+                        confirmButtonText: 'Good'
+                    })
+                },
+                error: function (data) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: 'Validation error',
+                        icon: 'error',
+                        confirmButtonText: 'Good'
+                    })
+                }
             })
         });
 
@@ -173,15 +189,14 @@
                     modal.find(".modal-body").html(response);
                     modal.modal('show')
                 },
-
                 failure: function () {
                     modal.modal('hide')
                 },
-
                 error: function (response) {
                     alert(response.responseText);
                 }
             });
         });
+
     </script>
 }
