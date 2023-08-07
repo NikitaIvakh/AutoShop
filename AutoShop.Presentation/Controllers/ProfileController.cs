@@ -14,10 +14,10 @@ namespace AutoShop.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProfileInfo()
+        public async Task<IActionResult> Detail()
         {
             var userName = User.Identity?.Name;
-            var response = await _profileService.GetAsync(userName);
+            var response = await _profileService.GetProfileAsync(userName);
 
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
                 return View(response.Data);
@@ -25,27 +25,14 @@ namespace AutoShop.Presentation.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Save()
-        {
-            return PartialView();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Save(ProfileViewModel profileViewModel)
         {
+            ModelState.Remove("UserName");
             if (ModelState.IsValid)
-            {
-                if (profileViewModel.Id == 0)
-                    await _profileService.CreateAsync(profileViewModel);
+                await _profileService.SaveAsync(profileViewModel);
 
-                else
-                    await _profileService.EditAsync(profileViewModel);
-
-                return RedirectToAction("Profile", "ProfileInfo");
-            }
-
-            return View();
+            return RedirectToAction("Detail");
         }
     }
 }

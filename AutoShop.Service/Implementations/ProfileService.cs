@@ -20,12 +20,7 @@ namespace AutoShop.Service.Implementations
             _logger = logger;
         }
 
-        public async Task<IBaseResponse<Profile>> CreateAsync(ProfileViewModel profileViewModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IBaseResponse<ProfileViewModel>> GetAsync(string userName)
+        public async Task<IBaseResponse<ProfileViewModel>> GetProfileAsync(string userName)
         {
             try
             {
@@ -63,9 +58,40 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public Task<IBaseResponse<Profile>> EditAsync(ProfileViewModel profileViewModel)
+        public async Task<IBaseResponse<Profile>> SaveAsync(ProfileViewModel profileViewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var profile = await _baseRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == profileViewModel.Id);
+                if (profile is null)
+                {
+                    return new BaseResponse<Profile>()
+                    {
+                        Description = $"Profile is null",
+                    };
+                }
+
+                profile.Age = profileViewModel.Age;
+                profile.Address = profileViewModel.Address;
+
+                await _baseRepository.UpdateAsync(profile);
+
+                return new BaseResponse<Profile>()
+                {
+                    Data = profile,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[ProfileService.SaveAsync] : {ex.Message}");
+                return new BaseResponse<Profile>
+                {
+                    Description = $"[ProfileService.SaveAsync] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
     }
 }
