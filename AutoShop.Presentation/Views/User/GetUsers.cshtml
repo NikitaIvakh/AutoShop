@@ -83,18 +83,18 @@
                 data: data,
                 success: function (data) {
                     Swal.fire({
-                        title: 'Информация',
+                        title: 'Information',
                         text: data.description,
                         icon: 'success',
-                        confirmButtonText: 'Окей'
+                        confirmButtonText: 'Good'
                     })
                 },
                 error: function (response) {
                     Swal.fire({
-                        title: 'Информация',
+                        title: 'Information',
                         text: response.responseJSON.errorMessage,
                         icon: 'error',
-                        confirmButtonText: 'Окей'
+                        confirmButtonText: 'Good'
                     })
                 }
             })
