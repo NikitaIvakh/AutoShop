@@ -15,11 +15,13 @@ namespace AutoShop.Service.Implementations
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly ILogger<AccountService> _logger;
+        private readonly IBaseRepository<Profile> _profileRepository;
 
-        public AccountService(IBaseRepository<User> baseRepository, ILogger<AccountService> logger)
+        public AccountService(IBaseRepository<User> baseRepository, ILogger<AccountService> logger, IBaseRepository<Profile> profileRepository)
         {
             _userRepository = baseRepository;
             _logger = logger;
+            _profileRepository = profileRepository;
         }
 
         public async Task<IBaseResponse<ClaimsIdentity>> Register(RegisterViewModel register)
@@ -42,7 +44,13 @@ namespace AutoShop.Service.Implementations
                     Password = HashPasswordHelper.HashPassword(register.Password)
                 };
 
+                var profile = new Profile
+                {
+                    UserId = user.Id,
+                };
+
                 await _userRepository.CreateAsync(user);
+                await _profileRepository.CreateAsync(profile);
                 var result = Authenticate(user);
 
                 return new BaseResponse<ClaimsIdentity>()
@@ -81,7 +89,7 @@ namespace AutoShop.Service.Implementations
                 {
                     return new BaseResponse<ClaimsIdentity>()
                     {
-                        Description = $"Invalid password",
+                        Description = $"Invalid password or Login",
                     };
                 }
 
@@ -101,6 +109,42 @@ namespace AutoShop.Service.Implementations
                 return new BaseResponse<ClaimsIdentity>()
                 {
                     Description = $"[Login]: {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<bool>> ChangePasswordAsync(ChangePasswordViewModel changePassword)
+        {
+            try
+            {
+                var user = await _userRepository.GetAllElements().FirstOrDefaultAsync(key => key.Name == changePassword.UserName);
+                if (user is null)
+                {
+                    return new BaseResponse<bool>
+                    {
+                        Description = $"User not found",
+                        StatusCode = StatusCode.UserNotFound,
+                    };
+                }
+
+                user.Password = HashPasswordHelper.HashPassword(changePassword.NewPassword);
+                await _userRepository.UpdateAsync(user);
+
+                return new BaseResponse<bool>
+                {
+                    Description = $"Password changed successfully",
+                    StatusCode = StatusCode.Ok,
+                    Data = true,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[ChangePasswordAsync] : {ex.Message}");
+                return new BaseResponse<bool>
+                {
+                    Description = $"{ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
                 };
             }

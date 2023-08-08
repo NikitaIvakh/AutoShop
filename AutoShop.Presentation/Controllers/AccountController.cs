@@ -72,5 +72,20 @@ namespace AutoShop.Presentation.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _accountService.ChangePasswordAsync(changePassword);
+                if (response.StatusCode == Domain.Enum.StatusCode.Ok)
+                    return Json(new { description = response.Description });
+            }
+
+            var modelError = ModelState.Values.SelectMany(key => key.Errors);
+
+            return StatusCode(StatusCodes.Status500InternalServerError, new { modelError.FirstOrDefault().ErrorMessage });
+        }
     }
 }

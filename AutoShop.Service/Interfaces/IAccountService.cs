@@ -9,5 +9,7 @@ namespace AutoShop.Service.Interfaces
         Task<IBaseResponse<ClaimsIdentity>> Register(RegisterViewModel register);
 
         Task<IBaseResponse<ClaimsIdentity>> Login(LoginViewModel login);
+
+        Task<IBaseResponse<bool>> ChangePasswordAsync(ChangePasswordViewModel changePassword);
     }
 }

@@ -20,14 +20,17 @@
                             <form autocomplete="on" method="post" asp-controller="Account" asp-action="Login">
                                 <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
                                 <div class="form-group">
-                                    <input asp-for="Name" placeholder="Логин" class="form-control textbox-dg font-weight-bold text-center" type="text">
+                                    <input asp-for="Name" placeholder="Input login..." class="form-control textbox-dg font-weight-bold text-center" type="text">
                                     <div class="form-text">The length of the login must be from 3 to 20 characters.</div>
                                 </div>
                                 <div class="form-group">
                                     <input autocomplete="new-password" asp-for="Password" placeholder="Input password..." class="form-control textbox-dg font-weight-bold text-center" type="password">
+                                    <div class="form-text">The password must be greater than or equal to 5 characters.</div>
                                 </div>
-                                <a asp-controller="Account" asp-action="Register" type="button" class="btn btn-lg btn-primary float-right">Registration</a>
-                                <button class="btn btn-success btn-lg float-right">Submit</button>
+                                <div class="d-grid gap-2 d-md-block float-right">
+                                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary" type="button">Registration</a>
+                                    <button class="btn btn-success">Log in</button>
+                                </div>
                             </form>
                         </div>
                     </div>

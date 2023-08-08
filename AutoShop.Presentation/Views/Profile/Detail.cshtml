@@ -14,18 +14,62 @@
                     <h5 class="card-title">Profile Data</h5>
                     <div class="mb-3">
                         <label class="form-label text-black-50">Age</label>
-                        <input type="text" class="form-control" asp-for="Age" placeholder="Input age...">
+                        <input type="text" class="form-control" asp-for="Age">
                         <div class="form-text">The age must be specified from 0 to 150 years.</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-black-50">Address</label>
-                        <textarea class="form-control" asp-for="Address" rows="3" placeholder="Input address..."></textarea>
+                        <textarea class="form-control" asp-for="Address" rows="3"></textarea>
                         <div class="form-text">The length of the address must be from 5 to 200 characters.</div>
                     </div>
                     <div class="card-buttons-group">
                         <button class='btn btn-primary' id='saveProfileId'>Save</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <form id="accountFormId">
+                    <h5 class="card-title">Profile Data</h5>
+                    <div class="mb-3">
+                        <label class="form-label text-black-50">Log in</label>
+                        <input type="text" class="form-control" asp-for="UserName">
+                        <div class="form-text">The length of the login must be from 3 to 20 characters.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-black-50">New password</label>
+                        <input asp-for="NewPassword" class="form-control textbox-dg font-weight-bold text-center" type="password">
+                        <div class="form-text">The password must be greater than or equal to 5 characters.</div>
+                    </div>
+                    <div class="card-buttons-group">
+                        <button class='btn btn-primary' id='saveAccountId'>Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="@Url.Action("Index", "Home")">Main page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("GetCars", "Car")">Cars</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     </div>
@@ -52,7 +96,33 @@
                 error: function (data) {
                     Swal.fire({
                         title: 'Information',
-                        text: 'The data is not saved! Error when filling out the form',
+                        text: 'Validation error',
+                        icon: 'error',
+                        confirmButtonText: 'Good'
+                    })
+                }
+            });
+        });
+
+        $('#saveAccountId').on('click', function (e) {
+            e.preventDefault();
+            const data = $('#accountFormId').serialize()
+            $.ajax({
+                url: '@Url.Action("ChangePassword", "Account")',
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: response.description,
+                        icon: 'success',
+                        confirmButtonText: 'Good'
+                    })
+                },
+                error: function (response) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: response.responseJSON.errorMessage,
                         icon: 'error',
                         confirmButtonText: 'Good'
                     })

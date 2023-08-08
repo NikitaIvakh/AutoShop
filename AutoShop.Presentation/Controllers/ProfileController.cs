@@ -28,7 +28,9 @@ namespace AutoShop.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(ProfileViewModel profileViewModel)
         {
+            ModelState.Remove("Id");
             ModelState.Remove("UserName");
+            ModelState.Remove("NewPassword");
             if (ModelState.IsValid)
             {
                 var response = await _profileService.UpdateAsync(profileViewModel);

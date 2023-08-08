@@ -39,6 +39,12 @@ namespace AutoShop.DAL
 
             modelBuilder.Entity<Profile>(builder =>
             {
+                builder.HasData(new Profile()
+                {
+                    Id = 1,
+                    UserId = 1,
+                });
+
                 builder.ToTable("Profiles").HasKey(key => key.Id);
                 builder.Property(key => key.Id).ValueGeneratedOnAdd();
 
