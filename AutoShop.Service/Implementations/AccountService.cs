@@ -44,12 +44,13 @@ namespace AutoShop.Service.Implementations
                     Password = HashPasswordHelper.HashPassword(register.Password)
                 };
 
+                await _userRepository.CreateAsync(user);
+
                 var profile = new Profile
                 {
                     UserId = user.Id,
                 };
 
-                await _userRepository.CreateAsync(user);
                 await _profileRepository.CreateAsync(profile);
                 var result = Authenticate(user);
 
