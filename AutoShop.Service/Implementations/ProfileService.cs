@@ -11,12 +11,12 @@ namespace AutoShop.Service.Implementations
 {
     public class ProfileService : IProfileService
     {
-        private readonly IBaseRepository<Profile> _baseRepository;
+        private readonly IBaseRepository<Profile> _profileRepository;
         private readonly ILogger<ProfileService> _logger;
 
         public ProfileService(IBaseRepository<Profile> baseRepository, ILogger<ProfileService> logger)
         {
-            _baseRepository = baseRepository;
+            _profileRepository = baseRepository;
             _logger = logger;
         }
 
@@ -24,7 +24,7 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var profile = await _baseRepository.GetAllElements().Include(key => key.User).Select(key => new ProfileViewModel
+                var profile = await _profileRepository.GetAllElements().Include(key => key.User).Select(key => new ProfileViewModel
                 {
                     Id = key.Id,
                     Age = key.Age,
@@ -37,6 +37,7 @@ namespace AutoShop.Service.Implementations
                     return new BaseResponse<ProfileViewModel>()
                     {
                         Description = $"Profile is null",
+                        StatusCode = StatusCode.ProfileIsNull,
                     };
                 }
 
@@ -62,19 +63,20 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var profile = await _baseRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == profileViewModel.Id);
+                var profile = await _profileRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == profileViewModel.Id);
                 if (profile is null)
                 {
                     return new BaseResponse<Profile>()
                     {
                         Description = $"Profile is null",
+                        StatusCode = StatusCode.ProfileIsNull,
                     };
                 }
 
                 profile.Age = profileViewModel.Age;
                 profile.Address = profileViewModel.Address;
 
-                await _baseRepository.UpdateAsync(profile);
+                await _profileRepository.UpdateAsync(profile);
 
                 return new BaseResponse<Profile>()
                 {

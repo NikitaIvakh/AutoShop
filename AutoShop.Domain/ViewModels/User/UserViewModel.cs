@@ -11,12 +11,12 @@ namespace AutoShop.Domain.ViewModels.User
         [Display(Name = "Login")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Specify the role")]
-        [Display(Name = "Role")]
-        public string Role { get; set; }
-
         [Required(ErrorMessage = "Enter the password")]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Specify the role")]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
     }
 }

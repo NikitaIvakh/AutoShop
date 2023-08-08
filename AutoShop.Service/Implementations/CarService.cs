@@ -52,6 +52,7 @@ namespace AutoShop.Service.Implementations
                 };
             }
         }
+
         public async Task<IBaseResponse<CarViewModel>> GetCarAsync(int id)
         {
             try

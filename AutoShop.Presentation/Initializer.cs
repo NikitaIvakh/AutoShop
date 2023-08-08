@@ -1,7 +1,6 @@
 ﻿using AutoShop.DAL.Interfaces;
 using AutoShop.DAL.Repositories;
 using AutoShop.Domain.Entity;
-using AutoShop.Domain.Response;
 using AutoShop.Service.Implementations;
 using AutoShop.Service.Interfaces;
 

@@ -84,7 +84,6 @@ namespace AutoShop.Presentation.Controllers
             }
 
             var modelError = ModelState.Values.SelectMany(key => key.Errors);
-
             return StatusCode(StatusCodes.Status500InternalServerError, new { modelError.FirstOrDefault().ErrorMessage });
         }
     }

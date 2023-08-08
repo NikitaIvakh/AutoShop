@@ -34,6 +34,7 @@ namespace AutoShop.Service.Implementations
                     return new BaseResponse<ClaimsIdentity>
                     {
                         Description = $"A user with this username already exists",
+                        StatusCode = StatusCode.UserAlreadyExists,
                     };
                 }
 
@@ -82,7 +83,8 @@ namespace AutoShop.Service.Implementations
                 {
                     return new BaseResponse<ClaimsIdentity>()
                     {
-                        Description = "User not found"
+                        Description = "User not found",
+                        StatusCode = StatusCode.UserNotFound,
                     };
                 }
 
