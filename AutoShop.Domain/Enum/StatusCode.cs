@@ -6,5 +6,7 @@
         InternalServerError = 500,
         CarNotFound = 10,
         UserNotFound = 0,
+        UserAlreadyExists = 1,
+        NotFountRoles = 2,
     }
 }
