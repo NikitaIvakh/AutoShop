@@ -14,14 +14,16 @@ namespace AutoShop.Service.Implementations
     public class AccountService : IAccountService
     {
         private readonly IBaseRepository<User> _userRepository;
-        private readonly ILogger<AccountService> _logger;
         private readonly IBaseRepository<Profile> _profileRepository;
+        private readonly IBaseRepository<Basket> _basketRepository;
+        private readonly ILogger<AccountService> _logger;
 
-        public AccountService(IBaseRepository<User> baseRepository, ILogger<AccountService> logger, IBaseRepository<Profile> profileRepository)
+        public AccountService(IBaseRepository<User> baseRepository, ILogger<AccountService> logger, IBaseRepository<Profile> profileRepository, IBaseRepository<Basket> basketRepository)
         {
             _userRepository = baseRepository;
             _logger = logger;
             _profileRepository = profileRepository;
+            _basketRepository = basketRepository;
         }
 
         public async Task<IBaseResponse<ClaimsIdentity>> Register(RegisterViewModel register)
@@ -52,7 +54,13 @@ namespace AutoShop.Service.Implementations
                     UserId = user.Id,
                 };
 
+                var basket = new Basket
+                {
+                    UserId = user.Id,
+                };
+
                 await _profileRepository.CreateAsync(profile);
+                await _basketRepository.CreateAsync(basket);
                 var result = Authenticate(user);
 
                 return new BaseResponse<ClaimsIdentity>()
@@ -136,9 +144,9 @@ namespace AutoShop.Service.Implementations
 
                 return new BaseResponse<bool>
                 {
+                    Data = true,
                     Description = $"Password changed successfully",
                     StatusCode = StatusCode.Ok,
-                    Data = true,
                 };
             }
 

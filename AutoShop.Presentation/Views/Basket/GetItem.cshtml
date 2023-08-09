@@ -1,23 +1,23 @@
 ﻿@model OrderViewModel
 
-@{
-    ViewData["Title"] = "GetItem";
-}
-
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
+        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model?.Image ?? Array.Empty<byte>())"
+             class="img-fluid rounded-start rounded">
+    </div>
+    <div class="col-md-5 container">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Car: @Model.CarName</li>
-            <li class="list-group-item">Model: @Model.Model</li>
-            <li class="list-group-item">Speed: @Model.Speed</li>
-            <li class="list-group-item">Type car: @Model.TypeCar</li>
+            <li class="list-group-item"><b>Title:</b> @Model.CarName</li>
+            <li class="list-group-item"><b>Model:</b> @Model.Model</li>
+            <li class="list-group-item"><b>Speed:</b> @Model.Speed km/h</li>
+            <li class="list-group-item"><b>Car type:</b> @Model.TypeCar</li>
         </ul>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5 container">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Full name: @Model.FirstName @Model.LastName.Substring(0, 1). @Model.MiddleName.Substring(0, 1).</li>
-            <li class="list-group-item">Address: @Model.Address</li>
-            <li class="list-group-item">Date of creation: @Model.DateCreate</li>
+            <li class="list-group-item"><b>Full name:</b> @Model.FirstName @Model.LastName.Substring(0, 1). @Model.MiddleName.Substring(0, 1).</li>
+            <li class="list-group-item"><b>Address:</b> @Model.Address</li>
+            <li class="list-group-item"><b>Date of creation:</b> @Model.DateCreate</li>
         </ul>
     </div>
 </div>

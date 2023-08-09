@@ -4,6 +4,7 @@ namespace AutoShop.Domain.ViewModels.Account
 {
     public class ChangePasswordViewModel
     {
+        [Required(ErrorMessage = "Enter a name")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Enter the password")]

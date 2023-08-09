@@ -47,6 +47,7 @@ namespace AutoShop.Service.Implementations
                                    Speed = car.Speed,
                                    TypeCar = car.TypeCar.GetDisplayName(),
                                    Model = car.Model,
+                                   Image = car.Avatar,
                                };
 
                 return new BaseResponse<IEnumerable<OrderViewModel>>()
@@ -85,7 +86,7 @@ namespace AutoShop.Service.Implementations
                 }
 
                 var orders = user.Basket?.Orders.Where(key => key.Id == id).ToList();
-                if (orders is null || orders.Count == 0)
+                if (orders is null || !orders.Any())
                 {
                     return new BaseResponse<OrderViewModel>
                     {
@@ -95,7 +96,7 @@ namespace AutoShop.Service.Implementations
                 }
 
                 var response = (from order in orders
-                                join car in _carRepository.GetAllElements() on order.Id equals car.Id
+                                join car in _carRepository.GetAllElements() on order.CarId equals car.Id
                                 select new OrderViewModel
                                 {
                                     Id = order.Id,
@@ -108,6 +109,7 @@ namespace AutoShop.Service.Implementations
                                     LastName = order.LastName,
                                     MiddleName = order.MiddleName,
                                     DateCreate = order.DateCreated.ToLongDateString(),
+                                    Image = car.Avatar,
                                 }).FirstOrDefault();
 
                 if (response is null)

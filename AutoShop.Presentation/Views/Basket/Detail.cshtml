@@ -2,12 +2,11 @@
 
 @{
     ViewBag.Title = "Basket";
-    Layout = "_Layout";
 }
 
 @{
     var cardStyle = "col-md-12";
-    if (Model != null)
+    if (Model is not null)
     {
         switch (Model.Count())
         {
@@ -21,8 +20,9 @@
         }
     }
 }
+
 @{
-    if (Model == null || Model.Count() == 0)
+    if (Model is null || !Model.Any())
     {
         <div style="padding:40px;"></div>
         <div class="card col-md-12">
@@ -45,13 +45,14 @@
                     <div class="row row-cols-1 @cardStyle text-center">
                         <div class="col" style="padding: 10px;">
                             <div class="card">
-                                @*<img src="~/img/Mustang.jpg" class="card-img-top card-image" alt="@car.Name">*@
+                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(item?.Image ?? Array.Empty<byte>())"
+                                     class="img-fluid rounded-start rounded">
                                 <div class="card-body">
-                                    <h5 class="card-title">Car name: @item.CarName</h5>
-                                    <p class="card-text">Type car: @item.TypeCar</p>
+                                    <h5 class="card-title">Title: @item.CarName</h5>
+                                    <p class="card-text"><b>Type car:</b> @item.TypeCar</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Modle: @item.Model</li>
+                                    <li class="list-group-item"><b>Model:</b> @item.Model</li>
                                 </ul>
                                 <div class="card-body">
                                     <button class="btn btn-primary" onclick="openModal({ url: '/Basket/GetItem', data: '@item.Id' })"

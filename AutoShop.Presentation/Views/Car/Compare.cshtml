@@ -93,10 +93,8 @@
                         page: params.page || 1,
                         pageSize: params.pageSize || 5
                     };
-
                     return query;
                 },
-
                 processResults: function (result) {
                     return {
                         results: $.map(result, function (val, index) {
@@ -113,7 +111,7 @@
         function fillData(val, cardId) {
             if (cardId === 'firstCardId') {
                 $('#firstCardId').show();
-                $('#firstCardTitleId')[0].innerText = 'Name: ' + val.name;
+                $('#firstCardTitleId')[0].innerText = 'Title: ' + val.name;
                 $('#firstCardDescId')[0].innerText = 'Description: ' + val.description;
                 $('#firstCardSpeedId')[0].innerText = 'Speed: ' + val.speed + ' km/h';
                 $('#firstCardPriceId')[0].innerText = 'Price: ' + val.price + ' Br';
@@ -123,7 +121,7 @@
 
             else {
                 $('#secondCarId').show();
-                $('#secondCardTitleId')[0].innerText = 'Name: ' + val.name;
+                $('#secondCardTitleId')[0].innerText = 'Title: ' + val.name;
                 $('#secondCardDescId')[0].innerText = 'Description: ' + val.description;
                 $('#secondCardSpeedId')[0].innerText = 'Speed: ' + val.speed + ' km/h';
                 $('#secondCardPriceId')[0].innerText = 'Price: ' + val.price + ' Br';
@@ -133,7 +131,6 @@
 
             compareCars();
         }
-
 
         $("#secondCarId").on("change", function () {
             const id = this.value;
@@ -159,16 +156,14 @@
 
         function compareCars() {
             if (firstCar === null) {
-                $('#warningId')[0].innerText = 'You didn\'t choose the first car';
+                $('#warningId')[0].innerText = 'You did not choose the first car';
                 $('#warningCardId').show();
-
                 return;
             }
 
             if (secondCar === null) {
-                $('#warningId')[0].innerText = 'You didn\'t choose a second car';
+                $('#warningId')[0].innerText = 'You did not choose a second car';
                 $('#warningCardId').show();
-
                 return;
             }
 
@@ -182,11 +177,10 @@
             }
 
             else {
-                speed.innerText = 'Speed ' + secondCar.name + ' higher than theу ' + firstCar.name;
+                speed.innerText = 'Speed ' + secondCar.name + ' higher than the ' + firstCar.name;
             }
 
             var price = $('#resultPriceId')[0];
-
             if (firstCar.price > secondCar.price) {
                 price.innerText = 'Price ' + firstCar.name + ' higher than the ' + secondCar.name;
             }
@@ -196,7 +190,7 @@
             }
 
             else {
-                price.innerText = 'Price ' + firstCar.name + ' higher than theу ' + secondCar.name;
+                price.innerText = 'Price ' + firstCar.name + ' higher than the ' + secondCar.name;
             }
 
             $('#resultCardId').show();

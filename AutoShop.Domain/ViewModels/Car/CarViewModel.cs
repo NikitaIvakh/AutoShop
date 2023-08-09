@@ -5,7 +5,7 @@ namespace AutoShop.Domain.ViewModels.Car
 {
     public class CarViewModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Display(Name = "Title")]
         [Required(ErrorMessage = "Enter a title")]
@@ -13,6 +13,7 @@ namespace AutoShop.Domain.ViewModels.Car
         public string Name { get; set; }
 
         [Display(Name = "Description")]
+        [MinLength(10, ErrorMessage = "The minimum length must be more than 10 characters")]
         public string Description { get; set; }
 
         [Display(Name = "Model")]

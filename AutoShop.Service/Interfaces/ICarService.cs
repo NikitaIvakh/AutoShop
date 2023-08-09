@@ -8,16 +8,16 @@ namespace AutoShop.Service.Interfaces
     {
         Task<IBaseResponse<Car>> CreateCarAsync(CarViewModel car, byte[] imageData);
 
-        Task<IBaseResponse<CarViewModel>> GetCarAsync(int id);
+        Task<IBaseResponse<CarViewModel>> GetCarAsync(long id);
 
         IBaseResponse<IEnumerable<Car>> GetCars();
 
-        IBaseResponse<IDictionary<int, string>> GetTypes();
+        IBaseResponse<IDictionary<long, string>> GetTypes();
 
-        Task<IBaseResponse<IDictionary<int, string>>> GetCarAsync(string term);
+        Task<IBaseResponse<IDictionary<long, string>>> GetCarAsync(string term);
 
         Task<IBaseResponse<Car>> EditCarAsync(CarViewModel carViewModel);
 
-        Task<IBaseResponse<bool>> DeleteCarAsync(int id);
+        Task<IBaseResponse<bool>> DeleteCarAsync(long id);
     }
 }

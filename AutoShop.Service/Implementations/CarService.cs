@@ -53,7 +53,7 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<CarViewModel>> GetCarAsync(int id)
+        public async Task<IBaseResponse<CarViewModel>> GetCarAsync(long id)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace AutoShop.Service.Implementations
                     Model = car.Model,
                     Speed = car.Speed,
                     Price = car.Price,
-                    DateCreate = car.DateCreate.ToShortDateString(),
+                    DateCreate = car.DateCreate.ToLongDateString(),
                     TypeCar = car.TypeCar.GetDisplayName(),
                     Image = car.Avatar,
                 };
@@ -129,21 +129,21 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public IBaseResponse<IDictionary<int, string>> GetTypes()
+        public IBaseResponse<IDictionary<long, string>> GetTypes()
         {
             try
             {
-                var type = ((TypeCar[])Enum.GetValues(typeof(TypeCar))).ToDictionary(key => (int)key, value => value.GetDisplayName());
+                var type = ((TypeCar[])Enum.GetValues(typeof(TypeCar))).ToDictionary(key => (long)key, value => value.GetDisplayName());
                 if (type is null)
                 {
-                    return new BaseResponse<IDictionary<int, string>>()
+                    return new BaseResponse<IDictionary<long, string>>()
                     {
                         Description = $"Type not found",
                         StatusCode = StatusCode.InternalServerError,
                     };
                 }
 
-                return new BaseResponse<IDictionary<int, string>>()
+                return new BaseResponse<IDictionary<long, string>>()
                 {
                     Data = type,
                     StatusCode = StatusCode.Ok,
@@ -152,7 +152,7 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                return new BaseResponse<IDictionary<int, string>>()
+                return new BaseResponse<IDictionary<long, string>>()
                 {
                     Description = $"[GetTypes] : {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
@@ -160,8 +160,9 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IDictionary<int, string>>> GetCarAsync(string term)
+        public async Task<IBaseResponse<IDictionary<long, string>>> GetCarAsync(string term)
         {
+            var baseResponse = new BaseResponse<IDictionary<long, string>>();
             try
             {
                 var cars = await _carRepository.GetAllElements().Select(key => new CarViewModel()
@@ -172,11 +173,11 @@ namespace AutoShop.Service.Implementations
                     Model = key.Model,
                     Speed = key.Speed,
                     Price = key.Price,
-                    DateCreate = key.DateCreate.ToShortDateString(),
+                    DateCreate = key.DateCreate.ToLongDateString(),
                     TypeCar = key.TypeCar.GetDisplayName(),
                 }).Where(key => EF.Functions.Like(key.Name, $"%{term}%")).ToDictionaryAsync(key => key.Id, value => value.Name);
 
-                return new BaseResponse<IDictionary<int, string>>()
+                return new BaseResponse<IDictionary<long, string>>()
                 {
                     Data = cars,
                     StatusCode = StatusCode.Ok,
@@ -185,7 +186,7 @@ namespace AutoShop.Service.Implementations
 
             catch (Exception ex)
             {
-                return new BaseResponse<IDictionary<int, string>>()
+                return new BaseResponse<IDictionary<long, string>>()
                 {
                     Description = $"[GetTypes]: {ex.Message}",
                     StatusCode = StatusCode.InternalServerError,
@@ -233,7 +234,7 @@ namespace AutoShop.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<bool>> DeleteCarAsync(int id)
+        public async Task<IBaseResponse<bool>> DeleteCarAsync(long id)
         {
             try
             {
@@ -242,6 +243,7 @@ namespace AutoShop.Service.Implementations
                 {
                     return new BaseResponse<bool>()
                     {
+                        Data= false,
                         Description = "Car not found",
                         StatusCode = StatusCode.CarNotFound,
                     };

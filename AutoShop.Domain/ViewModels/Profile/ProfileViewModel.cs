@@ -15,8 +15,13 @@ namespace AutoShop.Domain.ViewModels.Profile
         [MaxLength(250, ErrorMessage = "The maximum length must be less than 250 characters")]
         public string Address { get; set; }
 
+        [Required(ErrorMessage = "Enter a name")]
         public string UserName { get; set; }
 
-        public string NewPassword { get; set; }
+        //[Required(ErrorMessage = "Enter the password")]
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Password")]
+        //[MinLength(5, ErrorMessage = "The password must be greater than or equal to 5 characters")]
+        //public string NewPassword { get; set; }
     }
 }

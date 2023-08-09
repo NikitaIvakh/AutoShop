@@ -27,7 +27,7 @@ namespace AutoShop.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<IActionResult> GetUser(long id)
         {
             if (ModelState.IsValid)
             {

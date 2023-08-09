@@ -14,11 +14,7 @@
         </div>
         <div class="form-group col-md-3">
             <label asp-for="@Model.Role" class="col-form-label"></label>
-            <select class="form-control" id="selectRoleId">
-                <option value="@Role.User">@Role.User.GetDisplayName()</option>
-                <option value="@Role.Moderator">@Role.Moderator.GetDisplayName()</option>
-                <option value="@Role.Admin">@Role.Admin.GetDisplayName()</option>
-            </select>
+            <input class="form-control" id="selectRoleId" value="@Model.Role" readonly/>
         </div>
     </div>
 </form>

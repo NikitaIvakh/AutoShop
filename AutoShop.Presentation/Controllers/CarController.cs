@@ -19,9 +19,9 @@ namespace AutoShop.Presentation.Controllers
         {
             var response = _carService.GetCars();
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
-                return View(response.Data.ToList());
+                return View(response.Data);
 
-            return View("Error", $"{response.Description}");
+            return View("GetCars");
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace AutoShop.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetCar(string term, int page = 1, int pageSize = 5)
+        public async Task<IActionResult> GetCar(string term)
         {
             var response = await _carService.GetCarAsync(term);
             return Json(response.Data);
@@ -58,6 +58,7 @@ namespace AutoShop.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(CarViewModel carViewModel)
         {
+            ModelState.Remove("Id");
             ModelState.Remove("DateCreate");
             if (ModelState.IsValid)
             {
@@ -75,7 +76,7 @@ namespace AutoShop.Presentation.Controllers
                 else
                     await _carService.EditCarAsync(carViewModel);
 
-                return RedirectToAction("Car", "GetCars");
+                return RedirectToAction("GetCars");
             }
 
             return View();
@@ -98,7 +99,6 @@ namespace AutoShop.Presentation.Controllers
             return Json(types.Data);
         }
 
-        [HttpGet]
         public IActionResult Compare()
         {
             return PartialView();

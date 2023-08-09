@@ -110,11 +110,6 @@
             @RenderBody()
         </main>
     </div>
-    @*  <footer class="border-top footer text-muted">
-    <div class="container">
-    &copy; 2023 - Elite Auto Sales Company - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-    </footer>*@
     <div class="modal fade" id="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -125,7 +120,7 @@
                     @*   Information*@
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-close btn-secondary" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">To close</button>
                     @{
                         if (User.IsInRole("Admin"))
                         {
@@ -136,6 +131,19 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalWhButtons" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Information</h5>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>

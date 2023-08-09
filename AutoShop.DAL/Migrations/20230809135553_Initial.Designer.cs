@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoShop.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230809073203_Initial")]
+    [Migration("20230809135553_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -53,11 +53,11 @@ namespace AutoShop.DAL.Migrations
 
             modelBuilder.Entity("AutoShop.Domain.Entity.Car", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<byte[]>("Avatar")
                         .HasColumnType("bytea");

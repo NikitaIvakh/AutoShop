@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="d-grid gap-2 d-md-block float-right">
-                    <button class="btn btn-success" id="createOrderId">Send</button>
+                    <button class="btn btn-success" id="createOrderId">Add to Cart</button>
                 </div>
             </form>
         </div>
@@ -87,6 +87,7 @@
                         confirmButtonText: 'Good'
                     })
                 },
+
                 error: function (response) {
                     Swal.fire({
                         title: 'Information',

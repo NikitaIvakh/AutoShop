@@ -30,7 +30,7 @@
 
 <div class="card col-md-12" style="margin: 10px;">
     <div class="card-buttons-group">
-        <button class='btn btn-primary' id='compareBtnId'>Comparison</button>
+        @*  <button class='btn btn-primary' id='compareBtnId'>Comparison</button>*@
         @{
             if (User.IsInRole("Admin"))
             {
@@ -55,7 +55,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">The list of cars is empty :(</h5>
                         <p class="card-text">
-                            The list will be updated later, do not worry
+                            The list will be updated later, do not worry.
                         </p>
                     </div>
                 </div>
@@ -63,6 +63,7 @@
         </div>
 
         <div style="padding: 10px;"></div>
+
         <div class="card text-center">
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
@@ -95,10 +96,10 @@
                     <div class="row row-cols-1 @cardStyle text-center">
                         <div class="col" style="padding: 10px;">
                             <div class="card">
-                                <img src="~/img/Mustang.jpg" class="card-img-top card-image" alt="@car.Name">
+                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(car?.Avatar ?? Array.Empty<byte>())" alt="@car.Name" />
                                 <div class="card-body">
                                     <h5 class="card-title">@car.Name</h5>
-                                    <p class="card-text"><b>Short description: </b>@car.Description.Substring(0, 25) ...</p>
+                                    <p class="card-text"><b>Short description: </b>@car.Description.Substring(0, 10)...</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item"><b>Price: </b>@car.Price.ToString("C")</li>
@@ -115,7 +116,7 @@
                                             <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete a car</a>
                                         }
                                     }
-                                    <a asp-controller="Order" asp-action="CreateOrder" asp-route-id="@car.Id" class="btn btn-success">Into a basket</a>
+                                    <a asp-controller="Order" asp-action="CreateOrder" asp-route-id="@car.Id" class="btn btn-success" style="margin-top: 10px;">Into a basket</a>
                                 </div>
                             </div>
                         </div>

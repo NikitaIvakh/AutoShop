@@ -58,9 +58,9 @@ namespace AutoShop.Service.Implementations
 
                 return new BaseResponse<User>
                 {
+                    Data = user,
                     Description = $"User successfully added",
                     StatusCode = StatusCode.Ok,
-                    Data = user,
                 };
             }
 

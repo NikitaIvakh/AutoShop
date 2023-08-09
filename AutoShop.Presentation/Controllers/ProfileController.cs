@@ -18,7 +18,6 @@ namespace AutoShop.Presentation.Controllers
         {
             var userName = User.Identity?.Name;
             var response = await _profileService.GetProfileAsync(userName);
-
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
                 return View(response.Data);
 
@@ -30,7 +29,6 @@ namespace AutoShop.Presentation.Controllers
         {
             ModelState.Remove("Id");
             ModelState.Remove("UserName");
-            ModelState.Remove("NewPassword");
             if (ModelState.IsValid)
             {
                 var response = await _profileService.UpdateAsync(profileViewModel);
