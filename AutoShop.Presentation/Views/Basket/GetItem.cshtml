@@ -1,0 +1,23 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "GetItem";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Car: @Model.CarName</li>
+            <li class="list-group-item">Model: @Model.Model</li>
+            <li class="list-group-item">Speed: @Model.Speed</li>
+            <li class="list-group-item">Type car: @Model.TypeCar</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Full name: @Model.FirstName @Model.LastName.Substring(0, 1). @Model.MiddleName.Substring(0, 1).</li>
+            <li class="list-group-item">Address: @Model.Address</li>
+            <li class="list-group-item">Date of creation: @Model.DateCreate</li>
+        </ul>
+    </div>
+</div>

@@ -8,6 +8,6 @@
 
         public long UserId { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
     }
 }
