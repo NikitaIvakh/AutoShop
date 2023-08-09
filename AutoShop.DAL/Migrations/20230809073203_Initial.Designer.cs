@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoShop.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230807071951_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230809073203_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,32 @@ namespace AutoShop.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("AutoShop.Domain.Entity.Basket", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Baskets", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            UserId = 1L
+                        });
+                });
 
             modelBuilder.Entity("AutoShop.Domain.Entity.Car", b =>
                 {
@@ -65,7 +91,7 @@ namespace AutoShop.DAL.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("AutoShop.Domain.Entity.Profile", b =>
+            modelBuilder.Entity("AutoShop.Domain.Entity.Order", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,6 +101,46 @@ namespace AutoShop.DAL.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long?>("BasketId")
+                        .IsRequired()
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CarId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("AutoShop.Domain.Entity.Profile", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Address")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
@@ -90,6 +156,14 @@ namespace AutoShop.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Profiles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Age = (byte)0,
+                            UserId = 1L
+                        });
                 });
 
             modelBuilder.Entity("AutoShop.Domain.Entity.User", b =>
@@ -126,6 +200,28 @@ namespace AutoShop.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AutoShop.Domain.Entity.Basket", b =>
+                {
+                    b.HasOne("AutoShop.Domain.Entity.User", "User")
+                        .WithOne("Basket")
+                        .HasForeignKey("AutoShop.Domain.Entity.Basket", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AutoShop.Domain.Entity.Order", b =>
+                {
+                    b.HasOne("AutoShop.Domain.Entity.Basket", "Basket")
+                        .WithMany("Orders")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+                });
+
             modelBuilder.Entity("AutoShop.Domain.Entity.Profile", b =>
                 {
                     b.HasOne("AutoShop.Domain.Entity.User", "User")
@@ -137,8 +233,16 @@ namespace AutoShop.DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AutoShop.Domain.Entity.Basket", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("AutoShop.Domain.Entity.User", b =>
                 {
+                    b.Navigation("Basket")
+                        .IsRequired();
+
                     b.Navigation("Profile")
                         .IsRequired();
                 });

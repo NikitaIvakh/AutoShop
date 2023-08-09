@@ -118,14 +118,7 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var user = _userRepository.GetAllElements().Select(key => new
-                {
-                    key.Id,
-                    key.Name,
-                    key.Profile.Age,
-                    key.Profile.Address,
-                    key.Role,
-                }).AsEnumerable().Select(key => new UserViewModel
+                var user = _userRepository.GetAllElements().AsEnumerable().Select(key => new UserViewModel
                 {
                     Id = key.Id,
                     Name = key.Name,
