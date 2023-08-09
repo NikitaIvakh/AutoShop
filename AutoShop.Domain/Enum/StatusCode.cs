@@ -9,5 +9,6 @@
         UserAlreadyExists = 1,
         NotFountRoles = 2,
         ProfileIsNull = 11,
+        OrderNotFound = 20,
     }
 }
