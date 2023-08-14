@@ -4,7 +4,7 @@ using AutoShop.Domain.Entity;
 using AutoShop.Service.Implementations;
 using AutoShop.Service.Interfaces;
 
-namespace Automarket
+namespace AutoShop.Presentation
 {
     public static class Initializer
     {
