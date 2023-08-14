@@ -162,7 +162,6 @@ namespace AutoShop.Service.Implementations
 
         public async Task<IBaseResponse<IDictionary<long, string>>> GetCarAsync(string term)
         {
-            var baseResponse = new BaseResponse<IDictionary<long, string>>();
             try
             {
                 var cars = await _carRepository.GetAllElements().Select(key => new CarViewModel()
@@ -243,7 +242,7 @@ namespace AutoShop.Service.Implementations
                 {
                     return new BaseResponse<bool>()
                     {
-                        Data= false,
+                        Data = false,
                         Description = "Car not found",
                         StatusCode = StatusCode.CarNotFound,
                     };

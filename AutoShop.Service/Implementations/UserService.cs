@@ -118,12 +118,12 @@ namespace AutoShop.Service.Implementations
         {
             try
             {
-                var user = _userRepository.GetAllElements().AsEnumerable().Select(key => new UserViewModel
+                var user = await _userRepository.GetAllElements().Select(key => new UserViewModel
                 {
                     Id = key.Id,
                     Name = key.Name,
                     Role = key.Role.GetDisplayName(),
-                }).FirstOrDefault();
+                }).FirstOrDefaultAsync();
 
                 if (user is null)
                 {
