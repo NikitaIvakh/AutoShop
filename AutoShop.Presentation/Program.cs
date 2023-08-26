@@ -42,7 +42,5 @@ webApplication.UseRouting();
 webApplication.UseAuthentication();
 webApplication.UseAuthorization();
 
-webApplication.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+webApplication.MapDefaultControllerRoute();
 webApplication.Run();
