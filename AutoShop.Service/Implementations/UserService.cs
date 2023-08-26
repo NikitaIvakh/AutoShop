@@ -123,7 +123,7 @@ namespace AutoShop.Service.Implementations
                     Id = key.Id,
                     Name = key.Name,
                     Role = key.Role.GetDisplayName(),
-                }).FirstOrDefaultAsync();
+                }).FirstOrDefaultAsync(key => key.Id == id);
 
                 if (user is null)
                 {
